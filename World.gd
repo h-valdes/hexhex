@@ -4,12 +4,19 @@ signal click_outside
 
 func _ready():
 	var square
+	var count = 0
 	for i in range(0, 3):
-		square = load("res://Square.gd").new(i)
-		add_child(square)
-		connect("click", square, "_on_click")
-		connect("click_outside", square, "_on_click_outside")
-		square.translate(Vector3(i*2, 0.0, i*2))
+		for j in range(0, 3):
+			square = load("res://Square.gd").new(count)
+			add_child(square)
+			count += 1
+			connect("click", square, "_on_click")
+			connect("click_outside", square, "_on_click_outside")
+			if(j%2):
+				square.translate(Vector3(i, 0, 0.75*j))
+			else:
+				square.translate(Vector3(0.5+i, 0, 0.75*j))
+	
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
