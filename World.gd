@@ -9,7 +9,7 @@ func _ready():
 		add_child(square)
 		connect("click", square, "_on_click")
 		connect("click_outside", square, "_on_click_outside")
-		square.translate(Vector3(2*i, 0, 2*i))
+		square.translate(Vector3(i*2, 0.0, i*2))
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton:

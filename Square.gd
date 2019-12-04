@@ -47,35 +47,64 @@ func generate_mesh():
 	var st = SurfaceTool.new()
 	
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	st.add_normal(Vector3(0, 1, 0))
-	st.add_uv(Vector2(0, 0))
-	st.add_vertex(Vector3(-1, 0, -1))
-	
-	st.add_normal(Vector3(0, 1, 0))
-	st.add_uv(Vector2(1, 0))
-	st.add_vertex(Vector3(1, 0, -1))
-	
-	st.add_normal(Vector3(0, 1, 0))
-	st.add_uv(Vector2(0, 1))
-	st.add_vertex(Vector3(-1, 0, 1))
-	
-	st.add_normal(Vector3(0, 1, 0))
-	st.add_uv(Vector2(0, 1))
-	st.add_vertex(Vector3(-1, 0, 1))
-	
-	st.add_normal(Vector3(0, 1, 0))
-	st.add_uv(Vector2(1, 0))
-	st.add_vertex(Vector3(1, 0, -1))
-	
-	st.add_normal(Vector3(0, 1, 0))
-	st.add_uv(Vector2(1, 1))
-	st.add_vertex(Vector3(1, 0, 1))
-	
-	st.index()
 	
 	var material = SpatialMaterial.new()
 	material.albedo_color = Color(0.8, 0.0, 0.0)
 	st.set_material(material)
+	
+	# Triangle 1
+	st.add_normal(Vector3(0, 1, 0))
+	st.add_uv(Vector2(0.25, 1.0))
+	st.add_vertex(Vector3(0.5, 0.0, -0.25)) # P4
+	
+	st.add_normal(Vector3(0, 1, 0))
+	st.add_uv(Vector2(0.25, 0.0))
+	st.add_vertex(Vector3(-0.5, 0.0, -0.25)) # P0
+	
+	st.add_normal(Vector3(0, 1, 0))
+	st.add_uv(Vector2(0.0, 0.5))
+	st.add_vertex(Vector3(0.0, 0.0, -0.5)) # P5	
+
+	# Triangle 2
+	st.add_normal(Vector3(0, 1, 0))
+	st.add_uv(Vector2(0.75, 1.0))
+	st.add_vertex(Vector3(0.5, 0.0, 0.25)) # P3
+	
+	st.add_normal(Vector3(0, 1, 0))
+	st.add_uv(Vector2(0.25, 0.0))
+	st.add_vertex(Vector3(-0.5, 0.0, -0.25)) # P0
+
+	st.add_normal(Vector3(0, 1, 0))
+	st.add_uv(Vector2(0.25, 1.0))
+	st.add_vertex(Vector3(0.5, 0, -0.25)) # P4	
+
+	# Triangle 3
+	st.add_normal(Vector3(0, 1, 0))
+	st.add_uv(Vector2(0.25, 0.0))
+	st.add_vertex(Vector3(-0.5, 0.0, -0.25)) # P0
+	
+	st.add_normal(Vector3(0, 1, 0))
+	st.add_uv(Vector2(0.75, 1.0))
+	st.add_vertex(Vector3(0.5, 0.0, 0.25)) # P3
+
+	st.add_normal(Vector3(0, 1, 0))
+	st.add_uv(Vector2(0.75, 0.0))
+	st.add_vertex(Vector3(-0.5, 0.0, 0.25)) # P1	
+
+	# Triangle 4
+	st.add_normal(Vector3(0, 1, 0))
+	st.add_uv(Vector2(0.75, 0.0))
+	st.add_vertex(Vector3(-0.5, 0.0, 0.25)) # P1
+	
+	st.add_normal(Vector3(0, 1, 0))
+	st.add_uv(Vector2(0.75, 1.0))
+	st.add_vertex(Vector3(0.5, 0.0, 0.25)) # P3
+
+	st.add_normal(Vector3(0, 1, 0))
+	st.add_uv(Vector2(1.0, 0.5))
+	st.add_vertex(Vector3(0.0, 0.0, 0.5)) # P2	
+
+	st.index()
 	
 	var mesh = Mesh.new()
 	st.commit(mesh)
