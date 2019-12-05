@@ -10,12 +10,12 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Spatial",
-"class": "Square",
+"class": "Hexagon",
 "language": "GDScript",
-"path": "res://Square.gd"
+"path": "res://Hexagon.gd"
 } ]
 _global_script_class_icons={
-"Square": ""
+"Hexagon": ""
 }
 
 [application]

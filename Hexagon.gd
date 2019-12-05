@@ -4,7 +4,7 @@ var id
 var data
 var mesh
 var static_body
-class_name Square
+class_name Hexagon
 
 func _init(new_id):
 	mesh = generate_mesh()

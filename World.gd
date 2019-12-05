@@ -3,59 +3,59 @@ signal click
 signal click_outside
 
 func _ready():
-	var square
+	var hex
 	var count = 0
-	square = load("res://Square.gd").new(0)
-	add_child(square)
-	connect("click", square, "_on_click")
-	connect("click_outside", square, "_on_click_outside")
+	hex = load("res://Hexagon.gd").new(0)
+	add_child(hex)
+	connect("click", hex, "_on_click")
+	connect("click_outside", hex, "_on_click_outside")
 	
-	square = load("res://Square.gd").new(1)
-	add_child(square)
-	connect("click", square, "_on_click")
-	connect("click_outside", square, "_on_click_outside")
-	square.translate(Vector3(0.5, 0, 0.75))
+	hex = load("res://Hexagon.gd").new(1)
+	add_child(hex)
+	connect("click", hex, "_on_click")
+	connect("click_outside", hex, "_on_click_outside")
+	hex.translate(Vector3(0.5, 0, 0.75))
 	
-	square = load("res://Square.gd").new(2)
-	add_child(square)
-	connect("click", square, "_on_click")
-	connect("click_outside", square, "_on_click_outside")
-	square.translate(Vector3(0.5, 0, -0.75))
+	hex = load("res://Hexagon.gd").new(2)
+	add_child(hex)
+	connect("click", hex, "_on_click")
+	connect("click_outside", hex, "_on_click_outside")
+	hex.translate(Vector3(0.5, 0, -0.75))
 	
-	square = load("res://Square.gd").new(3)
-	add_child(square)
-	connect("click", square, "_on_click")
-	connect("click_outside", square, "_on_click_outside")
-	square.translate(Vector3(1, 0, 0))
+	hex = load("res://Hexagon.gd").new(3)
+	add_child(hex)
+	connect("click", hex, "_on_click")
+	connect("click_outside", hex, "_on_click_outside")
+	hex.translate(Vector3(1, 0, 0))
 	
-	square = load("res://Square.gd").new(4)
-	add_child(square)
-	connect("click", square, "_on_click")
-	connect("click_outside", square, "_on_click_outside")
-	square.translate(Vector3(-1, 0, 0))
+	hex = load("res://Hexagon.gd").new(4)
+	add_child(hex)
+	connect("click", hex, "_on_click")
+	connect("click_outside", hex, "_on_click_outside")
+	hex.translate(Vector3(-1, 0, 0))
 	
-	square = load("res://Square.gd").new(5)
-	add_child(square)
-	connect("click", square, "_on_click")
-	connect("click_outside", square, "_on_click_outside")
-	square.translate(Vector3(-0.5, 0, -0.75))
+	hex = load("res://Hexagon.gd").new(5)
+	add_child(hex)
+	connect("click", hex, "_on_click")
+	connect("click_outside", hex, "_on_click_outside")
+	hex.translate(Vector3(-0.5, 0, -0.75))
 	
-	square = load("res://Square.gd").new(6)
-	add_child(square)
-	connect("click", square, "_on_click")
-	connect("click_outside", square, "_on_click_outside")
-	square.translate(Vector3(-0.5, 0, 0.75))
+	hex = load("res://Hexagon.gd").new(6)
+	add_child(hex)
+	connect("click", hex, "_on_click")
+	connect("click_outside", hex, "_on_click_outside")
+	hex.translate(Vector3(-0.5, 0, 0.75))
 #	for i in range(0, 3):
 #		for j in range(0, 3):
-#			square = load("res://Square.gd").new(count)
-#			add_child(square)
+#			hex = load("res://Hexagon.gd").new(count)
+#			add_child(hex)
 #			count += 1
-#			connect("click", square, "_on_click")
-#			connect("click_outside", square, "_on_click_outside")
+#			connect("click", hex, "_on_click")
+#			connect("click_outside", hex, "_on_click_outside")
 #			if(j%2):
-#				square.translate(Vector3(i, 0, 0.75*j))
+#				hex.translate(Vector3(i, 0, 0.75*j))
 #			else:
-#				square.translate(Vector3(0.5+i, 0, 0.75*j))
+#				hex.translate(Vector3(0.5+i, 0, 0.75*j))
 	
 
 func _unhandled_input(event):
