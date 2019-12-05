@@ -6,12 +6,13 @@ var mesh
 var static_body
 class_name Hexagon
 
-func _init(global_position):
+func _init(global_position, local_position):
+	# Local position is using cube coordinates
 	mesh = generate_mesh()
 	data = {
-		"type": "square",
+		"type": "hexagon",
 		"selected": false,
-		"local_position": Vector3(0, 0, 0),
+		"local_position": local_position,
 		"global_position": global_position
 	}	
 	static_body = mesh.get_child(0)
@@ -21,14 +22,14 @@ func _init(global_position):
 
 func _on_click(signal_data):
 	var is_selected = data["selected"]
-	if data["global_position"] == signal_data["global_position"] && !is_selected:
+	if data["local_position"] == signal_data["local_position"] && !is_selected:
 		var material = SpatialMaterial.new()
-		print("Clicked: " + str(data["global_position"]))
+		print(data["local_position"])
 		material.albedo_color = Color(0.8, 0.4, 0.0)
 		mesh.set_material_override(material)
 		data["selected"] = true
 		static_body.set_meta("data", data)
-	elif data["global_position"] != signal_data["global_position"] && is_selected:
+	elif data["local_position"] != signal_data["local_position"] && is_selected:
 		var material = SpatialMaterial.new()
 		material.albedo_color = Color(0.8, 0.0, 0.0)
 		mesh.set_material_override(material)

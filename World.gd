@@ -4,30 +4,37 @@ signal click_outside
 
 func _ready():
 	var hex
-	hex = load("res://Hexagon.gd").new(Vector3(0, 0, 0))
+	var global_position = Vector3(0, 0, 0)
+	var local_position = Vector3(0, 0, 0)
+	hex = load("res://Hexagon.gd").new(global_position, local_position)
 	add_child(hex)
 	connect("click", hex, "_on_click")
 	connect("click_outside", hex, "_on_click_outside")
 	
 	for i in range(1, 7):
-		var position
 		if i == 1:
-			position = Vector3(0.5, 0, 0.75)
+			global_position = Vector3(1, 0, 0)
+			local_position = Vector3(1, -1, 0)
 		elif i == 2:
-			position = Vector3(0.5, 0, -0.75)
+			global_position = Vector3(0.5, 0, 0.75)
+			local_position = Vector3(0, -1, 1)
 		elif i == 3:
-			position = Vector3(1, 0, 0)
+			global_position = Vector3(-0.5, 0, -0.75)
+			local_position = Vector3(-1, 0, 1)
 		elif i == 4:
-			position = Vector3(-1, 0, 0)
+			global_position = Vector3(-1, 0, 0)
+			local_position = Vector3(-1, 1, 0)
 		elif i == 5:
-			position = Vector3(-0.5, 0, -0.75)
+			global_position = Vector3(-0.5, 0, 0.75)
+			local_position = Vector3(0, 1, -1)
 		elif i == 6:
-			position = Vector3(-0.5, 0, 0.75)
-		hex = load("res://Hexagon.gd").new(position)
+			global_position = Vector3(0.5, 0, -0.75)
+			local_position = Vector3(1, 0, -1)
+		hex = load("res://Hexagon.gd").new(global_position, local_position)
 		add_child(hex)
 		connect("click", hex, "_on_click")
 		connect("click_outside", hex, "_on_click_outside")
-		hex.translate(position)
+		hex.translate(global_position)
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
