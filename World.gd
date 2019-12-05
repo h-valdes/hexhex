@@ -4,59 +4,30 @@ signal click_outside
 
 func _ready():
 	var hex
-	var count = 0
-	hex = load("res://Hexagon.gd").new(0)
+	hex = load("res://Hexagon.gd").new(Vector3(0, 0, 0))
 	add_child(hex)
 	connect("click", hex, "_on_click")
 	connect("click_outside", hex, "_on_click_outside")
 	
-	hex = load("res://Hexagon.gd").new(1)
-	add_child(hex)
-	connect("click", hex, "_on_click")
-	connect("click_outside", hex, "_on_click_outside")
-	hex.translate(Vector3(0.5, 0, 0.75))
-	
-	hex = load("res://Hexagon.gd").new(2)
-	add_child(hex)
-	connect("click", hex, "_on_click")
-	connect("click_outside", hex, "_on_click_outside")
-	hex.translate(Vector3(0.5, 0, -0.75))
-	
-	hex = load("res://Hexagon.gd").new(3)
-	add_child(hex)
-	connect("click", hex, "_on_click")
-	connect("click_outside", hex, "_on_click_outside")
-	hex.translate(Vector3(1, 0, 0))
-	
-	hex = load("res://Hexagon.gd").new(4)
-	add_child(hex)
-	connect("click", hex, "_on_click")
-	connect("click_outside", hex, "_on_click_outside")
-	hex.translate(Vector3(-1, 0, 0))
-	
-	hex = load("res://Hexagon.gd").new(5)
-	add_child(hex)
-	connect("click", hex, "_on_click")
-	connect("click_outside", hex, "_on_click_outside")
-	hex.translate(Vector3(-0.5, 0, -0.75))
-	
-	hex = load("res://Hexagon.gd").new(6)
-	add_child(hex)
-	connect("click", hex, "_on_click")
-	connect("click_outside", hex, "_on_click_outside")
-	hex.translate(Vector3(-0.5, 0, 0.75))
-#	for i in range(0, 3):
-#		for j in range(0, 3):
-#			hex = load("res://Hexagon.gd").new(count)
-#			add_child(hex)
-#			count += 1
-#			connect("click", hex, "_on_click")
-#			connect("click_outside", hex, "_on_click_outside")
-#			if(j%2):
-#				hex.translate(Vector3(i, 0, 0.75*j))
-#			else:
-#				hex.translate(Vector3(0.5+i, 0, 0.75*j))
-	
+	for i in range(1, 7):
+		var position
+		if i == 1:
+			position = Vector3(0.5, 0, 0.75)
+		elif i == 2:
+			position = Vector3(0.5, 0, -0.75)
+		elif i == 3:
+			position = Vector3(1, 0, 0)
+		elif i == 4:
+			position = Vector3(-1, 0, 0)
+		elif i == 5:
+			position = Vector3(-0.5, 0, -0.75)
+		elif i == 6:
+			position = Vector3(-0.5, 0, 0.75)
+		hex = load("res://Hexagon.gd").new(position)
+		add_child(hex)
+		connect("click", hex, "_on_click")
+		connect("click_outside", hex, "_on_click_outside")
+		hex.translate(position)
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
@@ -74,7 +45,6 @@ func raycast_click(position):
 	if collider_dict:
 		if collider_dict["collider"].has_meta("data"):
 			var data = collider_dict["collider"].get_meta("data")
-			print(collider_dict["position"])
 			emit_signal("click", data)
 	else:
 		emit_signal("click_outside")

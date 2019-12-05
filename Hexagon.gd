@@ -6,13 +6,13 @@ var mesh
 var static_body
 class_name Hexagon
 
-func _init(new_id):
+func _init(global_position):
 	mesh = generate_mesh()
-	id = new_id
 	data = {
-		"id": id,
 		"type": "square",
 		"selected": false,
+		"local_position": Vector3(0, 0, 0),
+		"global_position": global_position
 	}	
 	static_body = mesh.get_child(0)
 	static_body.set_meta("data", data)
@@ -21,14 +21,14 @@ func _init(new_id):
 
 func _on_click(signal_data):
 	var is_selected = data["selected"]
-	if data["id"] == signal_data["id"] && !is_selected:
+	if data["global_position"] == signal_data["global_position"] && !is_selected:
 		var material = SpatialMaterial.new()
-		print("Clicked id: " + str(data["id"]))
+		print("Clicked: " + str(data["global_position"]))
 		material.albedo_color = Color(0.8, 0.4, 0.0)
 		mesh.set_material_override(material)
 		data["selected"] = true
 		static_body.set_meta("data", data)
-	elif data["id"] != signal_data["id"] && is_selected:
+	elif data["global_position"] != signal_data["global_position"] && is_selected:
 		var material = SpatialMaterial.new()
 		material.albedo_color = Color(0.8, 0.0, 0.0)
 		mesh.set_material_override(material)
