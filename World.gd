@@ -14,40 +14,41 @@ func _ready():
 	connect("click_outside", hex, "_on_click_outside")
 	all_hex.push_back([global_position, local_position])
 	var n = 0
-	for base_hex in all_hex:
-		if n == 5:
-			break		
-		for i in range(1, 7):
-			if i == 1:
-				global_position = base_hex[0] + Vector3(1, 0, 0)
-				local_position = base_hex[1] + Vector3(1, -1, 0)
-			elif i == 2:
-				global_position = base_hex[0] + Vector3(0.5, 0, 0.75)
-				local_position = base_hex[1] + Vector3(0, -1, 1)
-			elif i == 3:
-				global_position = base_hex[0] +Vector3(-0.5, 0, -0.75)
-				local_position = base_hex[1] + Vector3(-1, 0, 1)
-			elif i == 4:
-				global_position = base_hex[0] + Vector3(-1, 0, 0)
-				local_position = base_hex[1] + Vector3(-1, 1, 0)
-			elif i == 5:
-				global_position = base_hex[0] + Vector3(-0.5, 0, 0.75)
-				local_position = base_hex[1] + Vector3(0, 1, -1)
-			elif i == 6:
-				global_position = base_hex[0] + Vector3(0.5, 0, -0.75)
-				local_position = base_hex[1] + Vector3(1, 0, -1)
-			
-			if !all_hex.has([global_position, local_position]):
-				hex = load("res://Hexagon.gd").new(global_position, local_position)
-				add_child(hex)
-				connect("click", hex, "_on_click")
-				connect("click_outside", hex, "_on_click_outside")
-				hex.translate(global_position)
-				all_hex.push_back([global_position, local_position])
-		
+	var already_used_hex = []
+	while n < 3:
+		var new_hex = []
+		for base_hex in all_hex:
+			if !already_used_hex.has(base_hex):
+				for i in range(1, 7):
+					if i == 1:
+						global_position = base_hex[0] + Vector3(1, 0, 0)
+						local_position = base_hex[1] + Vector3(1, -1, 0)
+					elif i == 2:
+						global_position = base_hex[0] + Vector3(0.5, 0, 0.75)
+						local_position = base_hex[1] + Vector3(0, -1, 1)
+					elif i == 3:
+						global_position = base_hex[0] +Vector3(-0.5, 0, -0.75)
+						local_position = base_hex[1] + Vector3(-1, 0, 1)
+					elif i == 4:
+						global_position = base_hex[0] + Vector3(-1, 0, 0)
+						local_position = base_hex[1] + Vector3(-1, 1, 0)
+					elif i == 5:
+						global_position = base_hex[0] + Vector3(-0.5, 0, 0.75)
+						local_position = base_hex[1] + Vector3(0, 1, -1)
+					elif i == 6:
+						global_position = base_hex[0] + Vector3(0.5, 0, -0.75)
+						local_position = base_hex[1] + Vector3(1, 0, -1)
+					
+					if !all_hex.has([global_position, local_position]):
+						hex = load("res://Hexagon.gd").new(global_position, local_position)
+						add_child(hex)
+						connect("click", hex, "_on_click")
+						connect("click_outside", hex, "_on_click_outside")
+						hex.translate(global_position)
+						new_hex.push_back([global_position, local_position])
+				already_used_hex.push_back(base_hex)
 		n += 1
-	
-	print(all_hex)
+		all_hex += new_hex
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
