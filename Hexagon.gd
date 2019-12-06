@@ -5,6 +5,8 @@ var data
 var mesh
 var static_body
 class_name Hexagon
+signal click
+signal click_outside
 
 func _init(global_position, local_position, HEX_SCALE):
 	# Local position is using cube coordinates
@@ -17,7 +19,8 @@ func _init(global_position, local_position, HEX_SCALE):
 	}	
 	static_body = mesh.get_child(0)
 	static_body.set_meta("data", data)
-	
+	connect("click_outside", mesh, "_on_click_outside")
+	connect("click", mesh, "_on_click")
 	add_child(mesh)
 
 func _on_click(signal_data):
