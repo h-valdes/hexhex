@@ -5,11 +5,10 @@ var data
 var mesh
 var static_body
 class_name Hexagon
-const SCALE = Vector3(2, 0, 2)
 
-func _init(global_position, local_position):
+func _init(global_position, local_position, HEX_SCALE):
 	# Local position is using cube coordinates
-	mesh = generate_mesh()
+	mesh = generate_mesh(HEX_SCALE)
 	data = {
 		"type": "hexagon",
 		"selected": false,
@@ -45,7 +44,7 @@ func _on_click_outside():
 		data["selected"] = false
 		static_body.set_meta("data", data)
 
-func generate_mesh():
+func generate_mesh(HEX_SCALE):
 	var st = SurfaceTool.new()
 	
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -57,54 +56,54 @@ func generate_mesh():
 	# Triangle 1
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.25, 1.0))
-	st.add_vertex(Vector3(0.5, 0.0, -0.25)*SCALE) # P4
+	st.add_vertex(Vector3(0.5, 0.0, -0.25)*HEX_SCALE) # P4
 	
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.25, 0.0))
-	st.add_vertex(Vector3(-0.5, 0.0, -0.25)*SCALE) # P0
+	st.add_vertex(Vector3(-0.5, 0.0, -0.25)*HEX_SCALE) # P0
 	
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.0, 0.5))
-	st.add_vertex(Vector3(0.0, 0.0, -0.5)*SCALE) # P5	
+	st.add_vertex(Vector3(0.0, 0.0, -0.5)*HEX_SCALE) # P5	
 
 	# Triangle 2
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.75, 1.0))
-	st.add_vertex(Vector3(0.5, 0.0, 0.25)*SCALE) # P3
+	st.add_vertex(Vector3(0.5, 0.0, 0.25)*HEX_SCALE) # P3
 	
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.25, 0.0))
-	st.add_vertex(Vector3(-0.5, 0.0, -0.25)*SCALE) # P0
+	st.add_vertex(Vector3(-0.5, 0.0, -0.25)*HEX_SCALE) # P0
 
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.25, 1.0))
-	st.add_vertex(Vector3(0.5, 0, -0.25)*SCALE) # P4	
+	st.add_vertex(Vector3(0.5, 0, -0.25)*HEX_SCALE) # P4	
 
 	# Triangle 3
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.25, 0.0))
-	st.add_vertex(Vector3(-0.5, 0.0, -0.25)*SCALE) # P0
+	st.add_vertex(Vector3(-0.5, 0.0, -0.25)*HEX_SCALE) # P0
 	
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.75, 1.0))
-	st.add_vertex(Vector3(0.5, 0.0, 0.25)*SCALE) # P3
+	st.add_vertex(Vector3(0.5, 0.0, 0.25)*HEX_SCALE) # P3
 
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.75, 0.0))
-	st.add_vertex(Vector3(-0.5, 0.0, 0.25)*SCALE) # P1	
+	st.add_vertex(Vector3(-0.5, 0.0, 0.25)*HEX_SCALE) # P1	
 
 	# Triangle 4
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.75, 0.0))
-	st.add_vertex(Vector3(-0.5, 0.0, 0.25)*SCALE) # P1
+	st.add_vertex(Vector3(-0.5, 0.0, 0.25)*HEX_SCALE) # P1
 	
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.75, 1.0))
-	st.add_vertex(Vector3(0.5, 0.0, 0.25)*SCALE) # P3
+	st.add_vertex(Vector3(0.5, 0.0, 0.25)*HEX_SCALE) # P3
 
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(1.0, 0.5))
-	st.add_vertex(Vector3(0.0, 0.0, 0.5)*SCALE) # P2	
+	st.add_vertex(Vector3(0.0, 0.0, 0.5)*HEX_SCALE) # P2	
 
 	st.index()
 	
