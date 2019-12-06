@@ -9,18 +9,12 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "StaticBody",
-"class": "Figure",
-"language": "GDScript",
-"path": "res://Figure.gd"
-}, {
 "base": "Spatial",
 "class": "Hexagon",
 "language": "GDScript",
 "path": "res://Hexagon.gd"
 } ]
 _global_script_class_icons={
-"Figure": "",
 "Hexagon": ""
 }
 

@@ -3,7 +3,7 @@ extends Spatial
 signal click
 signal click_outside
 const HEX_SCALE = 5
-
+const knight = preload("res://assets/characters/knight/Knight.tscn")
 func _ready():
 	create(2)
 	
@@ -58,9 +58,9 @@ func create(levels):
 					all_local_positions[global_position] = local_position
 					
 					# Add Figure over Hex
-					var figure = load("res://Figure.gd").new()
-					add_child(figure)
-					figure.translate(global_position)
+					var kn = knight.instance()
+					add_child(kn)
+					kn.translate(global_position)
 					
 		all_hex += new_hex
 		old_hex = new_hex
