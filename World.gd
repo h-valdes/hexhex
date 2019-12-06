@@ -23,4 +23,3 @@ func raycast_click(position):
 			map.emit_signal("click", data)
 	else:
 		emit_signal("click_outside")
-	

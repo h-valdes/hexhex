@@ -56,6 +56,12 @@ func create(levels):
 					hex.translate(global_position)
 					new_hex.push_back(global_position)
 					all_local_positions[global_position] = local_position
+					
+					# Add Figure over Hex
+					var figure = load("res://Figure.gd").new()
+					add_child(figure)
+					figure.translate(global_position)
+					
 		all_hex += new_hex
 		old_hex = new_hex
 		new_hex = []
