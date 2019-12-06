@@ -1,6 +1,7 @@
 extends Spatial
 signal click
 signal click_outside
+const SCALE = Vector3(2, 0, 2)
 
 func _ready():
 	var hex
@@ -17,7 +18,7 @@ func _ready():
 	all_local_positions[global_position] = local_position
 	var new_hex = []
 	var old_hex = []
-	for n in range(0, 3):
+	for n in range(0, 2):
 		if n == 0:
 			old_hex.push_back(global_position)
 
@@ -25,22 +26,22 @@ func _ready():
 			for i in range(1, 7):
 				var local_vector = all_local_positions.get(base_hex)
 				if i == 1:
-					global_position = base_hex+ Vector3(1, 0, 0)
+					global_position = base_hex+ Vector3(1, 0, 0) * SCALE
 					local_position =  local_vector + Vector3(1, -1, 0)
 				elif i == 2:
-					global_position = base_hex + Vector3(0.5, 0, 0.75)
+					global_position = base_hex + Vector3(0.5, 0, 0.75) * SCALE
 					local_position =  local_vector + + Vector3(0, -1, 1)
 				elif i == 3:
-					global_position = base_hex +Vector3(-0.5, 0, 0.75)
+					global_position = base_hex +Vector3(-0.5, 0, 0.75) * SCALE
 					local_position =  local_vector + Vector3(-1, 0, 1)
 				elif i == 4:
-					global_position = base_hex + Vector3(-1, 0, 0)
+					global_position = base_hex + Vector3(-1, 0, 0) * SCALE
 					local_position =  local_vector + Vector3(-1, 1, 0)
 				elif i == 5:
-					global_position = base_hex + Vector3(-0.5, 0, -0.75)
+					global_position = base_hex + Vector3(-0.5, 0, -0.75) * SCALE
 					local_position =  local_vector + Vector3(0, 1, -1)
 				elif i == 6:
-					global_position = base_hex + Vector3(0.5, 0, -0.75)
+					global_position = base_hex + Vector3(0.5, 0, -0.75) * SCALE
 					local_position =  local_vector + Vector3(1, 0, -1)
 					
 				if !all_local_positions.has(global_position):
@@ -54,7 +55,7 @@ func _ready():
 		all_hex += new_hex
 		old_hex = new_hex
 		new_hex = []
-		print(all_local_positions.size())
+		print(all_hex.size())
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
@@ -69,7 +70,8 @@ func raycast_click(position):
 	var to = from + camera.project_ray_normal(position) * ray_length
 	var space_state = get_world().direct_space_state
 	var collider_dict = space_state.intersect_ray(from, to, [self])
-	if collider_dict:
+	print(collider_dict)
+	if collider_dict:		
 		if collider_dict["collider"].has_meta("data"):
 			var data = collider_dict["collider"].get_meta("data")
 			emit_signal("click", data)

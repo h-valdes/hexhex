@@ -5,6 +5,7 @@ var data
 var mesh
 var static_body
 class_name Hexagon
+const SCALE = Vector3(2, 0, 2)
 
 func _init(global_position, local_position):
 	# Local position is using cube coordinates
@@ -56,54 +57,54 @@ func generate_mesh():
 	# Triangle 1
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.25, 1.0))
-	st.add_vertex(Vector3(0.5, 0.0, -0.25)) # P4
+	st.add_vertex(Vector3(0.5, 0.0, -0.25)*SCALE) # P4
 	
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.25, 0.0))
-	st.add_vertex(Vector3(-0.5, 0.0, -0.25)) # P0
+	st.add_vertex(Vector3(-0.5, 0.0, -0.25)*SCALE) # P0
 	
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.0, 0.5))
-	st.add_vertex(Vector3(0.0, 0.0, -0.5)) # P5	
+	st.add_vertex(Vector3(0.0, 0.0, -0.5)*SCALE) # P5	
 
 	# Triangle 2
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.75, 1.0))
-	st.add_vertex(Vector3(0.5, 0.0, 0.25)) # P3
+	st.add_vertex(Vector3(0.5, 0.0, 0.25)*SCALE) # P3
 	
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.25, 0.0))
-	st.add_vertex(Vector3(-0.5, 0.0, -0.25)) # P0
+	st.add_vertex(Vector3(-0.5, 0.0, -0.25)*SCALE) # P0
 
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.25, 1.0))
-	st.add_vertex(Vector3(0.5, 0, -0.25)) # P4	
+	st.add_vertex(Vector3(0.5, 0, -0.25)*SCALE) # P4	
 
 	# Triangle 3
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.25, 0.0))
-	st.add_vertex(Vector3(-0.5, 0.0, -0.25)) # P0
+	st.add_vertex(Vector3(-0.5, 0.0, -0.25)*SCALE) # P0
 	
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.75, 1.0))
-	st.add_vertex(Vector3(0.5, 0.0, 0.25)) # P3
+	st.add_vertex(Vector3(0.5, 0.0, 0.25)*SCALE) # P3
 
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.75, 0.0))
-	st.add_vertex(Vector3(-0.5, 0.0, 0.25)) # P1	
+	st.add_vertex(Vector3(-0.5, 0.0, 0.25)*SCALE) # P1	
 
 	# Triangle 4
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.75, 0.0))
-	st.add_vertex(Vector3(-0.5, 0.0, 0.25)) # P1
+	st.add_vertex(Vector3(-0.5, 0.0, 0.25)*SCALE) # P1
 	
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(0.75, 1.0))
-	st.add_vertex(Vector3(0.5, 0.0, 0.25)) # P3
+	st.add_vertex(Vector3(0.5, 0.0, 0.25)*SCALE) # P3
 
 	st.add_normal(Vector3(0, 1, 0))
 	st.add_uv(Vector2(1.0, 0.5))
-	st.add_vertex(Vector3(0.0, 0.0, 0.5)) # P2	
+	st.add_vertex(Vector3(0.0, 0.0, 0.5)*SCALE) # P2	
 
 	st.index()
 	
