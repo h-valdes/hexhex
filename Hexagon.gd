@@ -19,40 +19,32 @@ func _init(global_position, local_position, HEX_SCALE):
 	static_body.set_meta("data", data)
 	add_child(mesh)
 
+func set_color(color):
+	var material = SpatialMaterial.new()
+	material.albedo_color = color
+	mesh.set_material_override(material)
+
 func _on_click(signal_data):
 	var is_selected = data["is_selected"]
 	if data["local_position"] == signal_data["local_position"] && !is_selected:
-		var material = SpatialMaterial.new()
-		print(data["local_position"])
-		material.albedo_color = Color(0.8, 0.4, 0.0)
-		mesh.set_material_override(material)
+		set_color(Color(0.8, 0.4, 0.0))
 		data["is_selected"] = true
 		static_body.set_meta("data", data)
 	elif data["local_position"] != signal_data["local_position"] && is_selected:
-		var material = SpatialMaterial.new()
-		material.albedo_color = Color(0.8, 0.0, 0.0)
-		mesh.set_material_override(material)
+		set_color(Color(0.8, 0.0, 0.0))
 		data["is_selected"] = false
 		static_body.set_meta("data", data)
 
 func _on_click_outside():
-	var material = SpatialMaterial.new()
-	material.albedo_color = Color(0.8, 0.0, 0.0)
-	mesh.set_material_override(material)
+	set_color(Color(0.8, 0.0, 0.0))
 	data["is_selected"] = false
 	static_body.set_meta("data", data)
 
 func _on_show_neighbours(neighbours):
 	if neighbours.has(data["local_position"]):
-		var material = SpatialMaterial.new()
-		material.albedo_color = Color(0, 0.5, 0.0)
-		mesh.set_material_override(material)
-		static_body.set_meta("data", data)
+		set_color(Color(0, 0.5, 0.0))
 	elif !data["is_selected"]:
-		var material = SpatialMaterial.new()
-		material.albedo_color = Color(0.8, 0, 0.0)
-		mesh.set_material_override(material)
-		static_body.set_meta("data", data)
+		set_color(Color(0.8, 0, 0.0))
 
 func generate_mesh(HEX_SCALE):
 	var st = SurfaceTool.new()
