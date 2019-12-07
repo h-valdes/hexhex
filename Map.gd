@@ -2,10 +2,11 @@ extends Spatial
 
 signal click
 signal click_outside
+signal show_neighbours
 const HEX_SCALE = 5
 const knight = preload("res://assets/characters/knight/Knight.tscn")
 func _ready():
-	create(2)
+	create(3)
 	
 func create(levels):
 	var hex
@@ -18,6 +19,7 @@ func create(levels):
 	add_child(hex)
 	connect("click", hex, "_on_click")
 	connect("click_outside", hex, "_on_click_outside")
+	connect("show_neighbours", hex, "_on_show_neighbours")
 	all_hex.push_back(global_position)
 	all_local_positions[global_position] = local_position
 	var new_hex = []
@@ -52,6 +54,7 @@ func create(levels):
 					add_child(hex)
 					connect("click", hex, "_on_click")
 					connect("click_outside", hex, "_on_click_outside")
+					connect("show_neighbours", hex, "_on_show_neighbours")
 					hex.translate(global_position)
 					new_hex.push_back(global_position)
 					all_local_positions[global_position] = local_position

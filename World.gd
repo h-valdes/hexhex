@@ -21,5 +21,7 @@ func raycast_click(position):
 		if collider_dict["collider"].has_meta("data"):
 			var data = collider_dict["collider"].get_meta("data")
 			map.emit_signal("click", data)
+			var neighbours = map.get_neighbours(data["local_position"])
+			map.emit_signal("show_neighbours", neighbours)
 	else:
 		map.emit_signal("click_outside")

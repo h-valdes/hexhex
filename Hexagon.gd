@@ -35,12 +35,24 @@ func _on_click(signal_data):
 		data["selected"] = false
 		static_body.set_meta("data", data)
 
-func _on_click_outside():	
+func _on_click_outside():
 	if data["selected"]:
 		var material = SpatialMaterial.new()
 		material.albedo_color = Color(0.8, 0.0, 0.0)
 		mesh.set_material_override(material)
 		data["selected"] = false
+		static_body.set_meta("data", data)
+
+func _on_show_neighbours(neighbours):
+	if neighbours.has(data["local_position"]):
+		var material = SpatialMaterial.new()
+		material.albedo_color = Color(0, 0.5, 0.0)
+		mesh.set_material_override(material)
+		static_body.set_meta("data", data)
+	elif !data["selected"]:
+		var material = SpatialMaterial.new()
+		material.albedo_color = Color(0.8, 0, 0.0)
+		mesh.set_material_override(material)
 		static_body.set_meta("data", data)
 
 func generate_mesh(HEX_SCALE):
