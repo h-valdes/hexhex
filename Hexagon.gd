@@ -11,7 +11,7 @@ func _init(global_position, local_position, HEX_SCALE):
 	mesh = generate_mesh(HEX_SCALE)
 	data = {
 		"type": "hexagon",
-		"selected": false,
+		"is_selected": false,
 		"local_position": local_position,
 		"global_position": global_position
 	}	
@@ -20,28 +20,27 @@ func _init(global_position, local_position, HEX_SCALE):
 	add_child(mesh)
 
 func _on_click(signal_data):
-	var is_selected = data["selected"]
+	var is_selected = data["is_selected"]
 	if data["local_position"] == signal_data["local_position"] && !is_selected:
 		var material = SpatialMaterial.new()
 		print(data["local_position"])
 		material.albedo_color = Color(0.8, 0.4, 0.0)
 		mesh.set_material_override(material)
-		data["selected"] = true
+		data["is_selected"] = true
 		static_body.set_meta("data", data)
 	elif data["local_position"] != signal_data["local_position"] && is_selected:
 		var material = SpatialMaterial.new()
 		material.albedo_color = Color(0.8, 0.0, 0.0)
 		mesh.set_material_override(material)
-		data["selected"] = false
+		data["is_selected"] = false
 		static_body.set_meta("data", data)
 
 func _on_click_outside():
-	if data["selected"]:
-		var material = SpatialMaterial.new()
-		material.albedo_color = Color(0.8, 0.0, 0.0)
-		mesh.set_material_override(material)
-		data["selected"] = false
-		static_body.set_meta("data", data)
+	var material = SpatialMaterial.new()
+	material.albedo_color = Color(0.8, 0.0, 0.0)
+	mesh.set_material_override(material)
+	data["is_selected"] = false
+	static_body.set_meta("data", data)
 
 func _on_show_neighbours(neighbours):
 	if neighbours.has(data["local_position"]):
@@ -49,7 +48,7 @@ func _on_show_neighbours(neighbours):
 		material.albedo_color = Color(0, 0.5, 0.0)
 		mesh.set_material_override(material)
 		static_body.set_meta("data", data)
-	elif !data["selected"]:
+	elif !data["is_selected"]:
 		var material = SpatialMaterial.new()
 		material.albedo_color = Color(0.8, 0, 0.0)
 		mesh.set_material_override(material)
