@@ -22,4 +22,4 @@ func raycast_click(position):
 			var data = collider_dict["collider"].get_meta("data")
 			map.emit_signal("click", data)
 	else:
-		emit_signal("click_outside")
+		map.emit_signal("click_outside")

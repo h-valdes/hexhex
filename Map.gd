@@ -25,7 +25,6 @@ func create(levels):
 	for n in range(0, levels):
 		if n == 0:
 			old_hex.push_back(global_position)
-
 		for base_hex in old_hex:
 			for i in range(1, 7):
 				var local_vector = all_local_positions.get(base_hex)
@@ -61,8 +60,17 @@ func create(levels):
 					var kn = knight.instance()
 					add_child(kn)
 					kn.translate(global_position)
-					
 		all_hex += new_hex
 		old_hex = new_hex
 		new_hex = []
 		print(all_hex.size())
+
+func get_neighbours(local_vector):
+	var neighbours = []
+	neighbours.push_back(local_vector + Vector3(1, -1, 0))
+	neighbours.push_back(local_vector + + Vector3(0, -1, 1))
+	neighbours.push_back(local_vector + Vector3(-1, 0, 1))
+	neighbours.push_back(local_vector + Vector3(-1, 1, 0))
+	neighbours.push_back(local_vector + Vector3(0, 1, -1))
+	neighbours.push_back(local_vector + Vector3(1, 0, -1))
+	return neighbours
