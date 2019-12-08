@@ -15,6 +15,7 @@ func create(levels):
 	var global_position = Vector3(0, 0, 0)
 	var local_position = Vector3(0, 0, 0)
 	var base_position = global_position
+	# Initialize the center (and first) hexagon tile
 	hex = load("res://Hexagon.gd").new(global_position, local_position, HEX_SCALE)
 	add_child(hex)
 	connect("click", hex, "_on_click")
@@ -77,3 +78,7 @@ func get_neighbours(local_vector):
 	neighbours.push_back(local_vector + Vector3(0, 1, -1))
 	neighbours.push_back(local_vector + Vector3(1, 0, -1))
 	return neighbours
+
+func get_distance(pos1, pos2):
+	var distance = (abs(pos1.x - pos2.x) + abs(pos1.y - pos2.y) + abs(pos1.z - pos2.z))/2
+	return distance
