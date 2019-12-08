@@ -46,6 +46,12 @@ func _on_show_neighbours(neighbours):
 	elif !data["is_selected"]:
 		set_color(Color(0.8, 0, 0.0))
 
+func _on_show_line(members):
+	if members.has(data["local_position"]):
+		set_color(Color(0, 0, 0.5))
+	elif !data["is_selected"]:
+		set_color(Color(0.8, 0, 0.0))
+
 func generate_mesh(HEX_SCALE):
 	var st = SurfaceTool.new()
 	
