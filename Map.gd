@@ -89,3 +89,21 @@ func get_neighbours(local_vector):
 func get_distance(pos1, pos2):
 	var distance = (abs(pos1.x - pos2.x) + abs(pos1.y - pos2.y) + abs(pos1.z - pos2.z))/2
 	return distance
+
+func hex_round(hex):
+	var rx = round(hex.x)
+	var ry = round(hex.y)
+	var rz = round(hex.z)
+	
+	var x_diff = abs(rx - hex.x)
+	var y_diff = abs(ry - hex.y)
+	var z_diff = abs(rz - hex.z)
+	
+	if x_diff > y_diff and x_diff > z_diff:
+		rx = -ry-rz
+	elif y_diff > z_diff:
+		ry = -rx-rz
+	else:
+		rz = -rx-ry
+	
+	return Vector3(rx, ry, rz)
