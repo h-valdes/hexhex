@@ -107,3 +107,18 @@ func hex_round(hex):
 		rz = -rx-ry
 	
 	return Vector3(rx, ry, rz)
+
+func general_lerp(a, b, t):
+	return a + (b - a) * t
+
+func hex_lerp(a, b, t):
+	return Vector3(general_lerp(a.x, b.x, t), 
+				general_lerp(a.y, b.y, t), 
+				general_lerp(a.z, b.z, t))
+
+func hex_linedraw(a, b):
+	var N = get_distance(a, b)
+	var results = []
+	for i in range(0, N+1):
+		results.push_back(hex_round(hex_lerp(a, b, 1.0/N * i)))
+	return results
