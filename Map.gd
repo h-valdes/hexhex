@@ -5,8 +5,15 @@ signal click_outside
 signal show_neighbours
 const HEX_SCALE = 5
 const knight = preload("res://assets/characters/knight/Knight.tscn")
+var selected_hex
 func _ready():
 	create(3)
+
+func get_selected_hex():
+	return selected_hex
+
+func set_selected_hex(position):
+	selected_hex = position
 	
 func create(levels):
 	var hex
