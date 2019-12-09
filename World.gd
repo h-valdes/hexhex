@@ -28,8 +28,9 @@ func left_click(position):
 	if reference_hex && collider_dict:
 		if collider_dict["type"] == "hexagon":
 			var new_hex = collider_dict["local_position"]
-			var line_members = map.hex_linedraw(reference_hex, new_hex)
-			map.emit_signal("show_line", line_members)
+			if reference_hex != new_hex:
+				var line_members = map.hex_linedraw(reference_hex, new_hex)
+				map.emit_signal("show_line", line_members)
 			
 func right_click(position):
 	var collider_dict = raycast_collider(position)
