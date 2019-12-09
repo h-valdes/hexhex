@@ -7,13 +7,25 @@ func _ready():
 	pass
 
 func _physics_process(delta):
+	var angle_camera = atan2(
+		global_transform.origin.z,
+		global_transform.origin.x
+	)
 	# Move Camera
 	if Input.is_action_pressed("ui_right"):
-		velocity.x = SPEED
+		velocity = SPEED * Vector3(
+			cos(angle_camera),
+			0,
+			sin(angle_camera)
+		)
 	elif Input.is_action_pressed("ui_left"):
-		velocity.x = -SPEED
+		velocity = -SPEED * Vector3(
+			cos(angle_camera),
+			0,
+			sin(angle_camera)
+		)
 	else:
-		velocity.x = 0
+		velocity = Vector3(0, 0, 0)
 
 	if Input.is_action_pressed("ui_up"):
 		velocity.z = -SPEED
@@ -29,6 +41,7 @@ func _physics_process(delta):
 	# Rotate Camera
 	if Input.is_action_pressed("rotation") && Input.is_action_pressed("ui_right"):
 		# rotate(Vector3(0, 1, 0), 0.1)
+		print(angle_camera)
 		var old_pos = global_transform.origin
 		var angle = 0.1
 		var new_pos = Vector3(
@@ -40,6 +53,7 @@ func _physics_process(delta):
 		camera.rotate(Vector3(0, 1, 0), 0.1)
 	elif Input.is_action_pressed("rotation") && Input.is_action_pressed("ui_left"):
 		# rotate(Vector3(0, 1, 0), -0.1)
+		print(angle_camera)
 		var old_pos = global_transform.origin
 		var angle = -0.1
 		var new_pos = Vector3(
