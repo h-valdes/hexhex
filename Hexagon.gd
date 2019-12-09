@@ -20,6 +20,7 @@ func _init(global_position, local_position, HEX_SCALE):
 	add_child(mesh)
 
 func set_color(color):
+	# Change color of the mesh
 	var material = SpatialMaterial.new()
 	material.albedo_color = color
 	mesh.set_material_override(material)
@@ -36,6 +37,7 @@ func _on_click(signal_data):
 		static_body.set_meta("data", data)
 
 func _on_click_outside():
+	# Change to default color if the mouse clicked outside of the map
 	set_color(Color(0.8, 0.0, 0.0))
 	data["is_selected"] = false
 	static_body.set_meta("data", data)
