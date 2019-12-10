@@ -9,10 +9,7 @@ func _ready():
 
 func _physics_process(delta):
 	var camera = get_node("/root/World/CameraBody/Camera")
-	var angle_camera = atan2(
-		global_transform.origin.z,
-		global_transform.origin.x
-	)
+	var angle_camera = (PI * 55) / 180
 	# Move Camera
 	if Input.is_action_pressed("ui_right"):
 		camera.translate(Vector3(1, 0, 0))
@@ -20,9 +17,9 @@ func _physics_process(delta):
 		camera.translate(Vector3(-1, 0, 0))
 
 	if Input.is_action_pressed("ui_up"):
-		camera.translate(Vector3(0, 1, 1))
+		camera.translate(Vector3(0, 1, -1))
 	elif Input.is_action_pressed("ui_down"):
-		camera.translate(Vector3(0, -1, -1))
+		camera.translate(Vector3(0, -1, 1))
 	
 	
 	# Rotate Camera

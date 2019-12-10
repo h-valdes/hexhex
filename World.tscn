@@ -12,7 +12,7 @@ input_ray_pickable = false
 script = ExtResource( 2 )
 
 [node name="Camera" type="Camera" parent="CameraBody"]
-transform = Transform( 1, 0, 0, 0, 0.573576, 0.819152, 0, -0.819152, 0.573576, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0 )
 
 [node name="Control" type="Control" parent="."]
 margin_right = 1024.0
