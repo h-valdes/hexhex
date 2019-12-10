@@ -30,7 +30,7 @@ func left_click(position):
 	# Function for the left click (mouse) event
 	var collider_dict = raycast_collider(position)["collider"].get_meta("data")
 	var reference_hex = map.get_selected_hex()
-	if reference_hex && collider_dict:
+	if (reference_hex != null) && collider_dict:
 		if collider_dict["type"] == "hexagon":
 			var new_hex = collider_dict["local_position"]
 			if reference_hex != new_hex:
@@ -51,5 +51,6 @@ func right_click(position):
 				var neighbours = map.get_neighbours(data["local_position"])
 				map.emit_signal("show_neighbours", neighbours)
 				map.set_selected_hex(data["local_position"])
+				print(data)
 	else:
 		map.emit_signal("click_outside")

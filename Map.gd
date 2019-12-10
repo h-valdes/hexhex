@@ -186,7 +186,7 @@ func pathfinding(start, goal):
 	
 func find_path(hex, came_from, path):
 	path.push_back(hex)
-	if came_from[hex]:
+	if came_from[hex] != null:
 		var new_hex = came_from[hex]
 		find_path(new_hex, came_from, path)
 	else:
