@@ -7,6 +7,10 @@ signal show_line
 const HEX_SCALE = 5
 const knight = preload("res://assets/characters/knight/Knight.tscn")
 var selected_hex
+var max_x = 0
+var min_x = 0
+var max_z = 0
+var min_z = 0
 func _ready():
 	create(3)
 
@@ -74,6 +78,17 @@ func create(levels):
 					var kn = knight.instance()
 					add_child(kn)
 					kn.translate(global_position)
+					
+					# Determine min, max values
+					if global_position.x > max_x:
+						max_x = global_position.x
+					if global_position.x < min_x:
+						min_x = global_position.x
+					if global_position.z > max_z:
+						max_z = global_position.z
+					if global_position.z < min_z:
+						min_z = global_position.z
+						
 		all_hex += new_hex
 		old_hex = new_hex
 		new_hex = []
