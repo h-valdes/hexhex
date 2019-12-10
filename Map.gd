@@ -151,3 +151,35 @@ func hex_linedraw(a, b):
 	for i in range(0, N+1):
 		results.push_back(hex_round(hex_lerp(a, b, 1.0/N * i)))
 	return results
+
+func priorityComparisson(a, b):
+	# [Vector3, priority]
+	return a[1] > b[1]
+
+func pathfinding(start, goal):
+	# Using A-Star Algorithm from redblobgames.com
+	var frontier = []
+	frontier.push_back([start, 0])
+	var came_from = {}
+	var cost_so_far = {}
+	came_from[start] = null
+	cost_so_far[start] = 0
+	var count = 0
+	print("Goal: " + str(goal))
+	print("Start: " + str(start))
+	while !frontier.empty():
+		var current = frontier.back()[0]
+		frontier.pop_back()
+		if current == goal:
+			print("Success")
+			break
+
+		for next in get_neighbours(current):
+			var new_cost = cost_so_far[current] + 1 # Change to graph.cost(current, next)
+			if !cost_so_far.has(next) || new_cost < cost_so_far[next]:
+				cost_so_far[next] = new_cost
+				var priority = new_cost + get_distance(goal, next)
+				frontier.push_front([next, priority])
+				frontier.sort_custom(self, "priorityComparisson")
+				came_from[next] = current
+	

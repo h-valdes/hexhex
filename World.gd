@@ -36,6 +36,7 @@ func left_click(position):
 			if reference_hex != new_hex:
 				var line_members = map.hex_linedraw(reference_hex, new_hex)
 				map.emit_signal("show_line", line_members)
+				map.pathfinding(reference_hex, new_hex)
 			
 func right_click(position):
 	# Function for the right click (mouse) event

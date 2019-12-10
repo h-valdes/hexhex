@@ -36,11 +36,9 @@ func _physics_process(delta):
 
 	if Input.is_action_pressed("ui_up"):
 		if camera_position.z > world_dimensions["min_z"] / 2:
-			print(camera_position.z)
 			camera.translate(Vector3(0, 1, -1))
 	elif Input.is_action_pressed("ui_down"):
 		if camera_position.z < world_dimensions["max_z"] + 10:
-			print(camera_position.z)
 			camera.translate(Vector3(0, -1, 1))
 	
 	# Rotate Camera
