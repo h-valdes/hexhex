@@ -165,13 +165,10 @@ func pathfinding(start, goal):
 	came_from[start] = null
 	cost_so_far[start] = 0
 	var count = 0
-	print("Goal: " + str(goal))
-	print("Start: " + str(start))
 	while !frontier.empty():
 		var current = frontier.back()[0]
 		frontier.pop_back()
 		if current == goal:
-			print("Success")
 			break
 
 		for next in get_neighbours(current):
@@ -182,4 +179,15 @@ func pathfinding(start, goal):
 				frontier.push_front([next, priority])
 				frontier.sort_custom(self, "priorityComparisson")
 				came_from[next] = current
+	var path = []
+	find_path(goal, came_from, path)
+	print(path)
+	return path
 	
+func find_path(hex, came_from, path):
+	path.push_back(hex)
+	if came_from[hex]:
+		var new_hex = came_from[hex]
+		find_path(new_hex, came_from, path)
+	else:
+		return path
