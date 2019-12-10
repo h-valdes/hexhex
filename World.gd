@@ -1,8 +1,11 @@
 extends Spatial
 var map
+var camera
 func _ready():
+	camera = get_node("/root/World/CameraBody/Camera")
 	# Generate the hexagon grid map and add it as a child of the scene
 	map = load("res://Map.gd").new()
+	camera.set_meta("world_dimension", map.get_map_limits())
 	add_child(map)
 
 func _unhandled_input(event):
@@ -17,7 +20,6 @@ func _unhandled_input(event):
 func raycast_collider(position):
 	# Detect which element is colliding with the ray cast. Return a collider dict
 	var ray_length = 1000
-	var camera = get_node("/root/World/CameraBody/Camera")
 	var from = camera.project_ray_origin(position)
 	var to = from + camera.project_ray_normal(position) * ray_length
 	var space_state = get_world().direct_space_state

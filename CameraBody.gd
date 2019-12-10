@@ -4,38 +4,44 @@ var velocity = Vector3(0, 0, 0)
 const SPEED = 10
 var angle = 0.1
 var camera 
+var world_dimensions
 
 func _ready():
 	camera = get_node("/root/World/CameraBody/Camera")
 
 func _unhandled_input(event):
+	var camera_position = camera.global_transform.origin
 	if event is InputEventMouseButton:
+		# Zoom control
 		if event.button_index == BUTTON_WHEEL_UP:
 			if event.pressed:
-				camera.translate(Vector3(0, 0, -1))
+				if camera_position.y > 8:
+					camera.translate(Vector3(0, 0, -1))
 		if event.button_index == BUTTON_WHEEL_DOWN:
 			if event.pressed:
-				camera.translate(Vector3(0, 0, 1))
+				if camera_position.y < 20:
+					camera.translate(Vector3(0, 0, 1))
 
 func _physics_process(delta):
-	
+	world_dimensions = camera.get_meta("world_dimension")
 	var angle_camera = (PI * 55) / 180
+	var camera_position = camera.global_transform.origin
 	# Move Camera
 	if Input.is_action_pressed("ui_right"):
-		camera.translate(Vector3(1, 0, 0))
+		if camera_position.x < world_dimensions["max_x"]:
+			camera.translate(Vector3(1, 0, 0))
 	elif Input.is_action_pressed("ui_left"):
-		camera.translate(Vector3(-1, 0, 0))
+		if camera_position.x > world_dimensions["min_x"]:
+			camera.translate(Vector3(-1, 0, 0))
 
 	if Input.is_action_pressed("ui_up"):
-		camera.translate(Vector3(0, 1, -1))
+		if camera_position.z > world_dimensions["min_z"] / 2:
+			print(camera_position.z)
+			camera.translate(Vector3(0, 1, -1))
 	elif Input.is_action_pressed("ui_down"):
-		camera.translate(Vector3(0, -1, 1))
-	
-	# Zoom
-	if Input.is_action_pressed("scroll_up"):
-		camera.translate(Vector3(0, 1, 1))
-	elif Input.is_action_pressed("scroll_down"):
-		camera.translate(Vector3(0, -1, -1))
+		if camera_position.z < world_dimensions["max_z"] + 10:
+			print(camera_position.z)
+			camera.translate(Vector3(0, -1, 1))
 	
 	# Rotate Camera
 	if Input.is_action_pressed("rotation_right"):
