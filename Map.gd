@@ -7,10 +7,14 @@ signal show_line
 const HEX_SCALE = 5
 const knight = preload("res://assets/characters/knight/Knight.tscn")
 var selected_hex
-var max_x = 0
-var min_x = 0
-var max_z = 0
-var min_z = 0
+var all_hex = []
+var all_local_positions = {}
+var map_limits = {
+	"max_x": 0,
+	"min_x": 0,
+	"max_z": 0,
+	"min_z": 0,
+}
 func _ready():
 	create(3)
 
@@ -19,11 +23,12 @@ func get_selected_hex():
 
 func set_selected_hex(position):
 	selected_hex = position
+
+func get_map_limits():
+	return map_limits
 	
 func create(levels):
-	var hex
-	var all_hex = []
-	var all_local_positions = {}
+	var hex	
 	var global_position = Vector3(0, 0, 0)
 	var local_position = Vector3(0, 0, 0)
 	var base_position = global_position
@@ -80,28 +85,34 @@ func create(levels):
 					kn.translate(global_position)
 					
 					# Determine min, max values
-					if global_position.x > max_x:
-						max_x = global_position.x
-					if global_position.x < min_x:
-						min_x = global_position.x
-					if global_position.z > max_z:
-						max_z = global_position.z
-					if global_position.z < min_z:
-						min_z = global_position.z
+					if global_position.x > map_limits["max_x"]:
+						map_limits["max_x"] = global_position.x
+					if global_position.x < map_limits["min_x"]:
+						map_limits["min_x"]= global_position.x
+					if global_position.z > map_limits["max_z"]:
+						map_limits["max_z"] = global_position.z
+					if global_position.z < map_limits["min_z"]:
+						map_limits["min_z"] = global_position.z
 						
 		all_hex += new_hex
 		old_hex = new_hex
 		new_hex = []
-		print(all_hex.size())
 
 func get_neighbours(local_vector):
 	var neighbours = []
-	neighbours.push_back(local_vector + Vector3(1, -1, 0))
-	neighbours.push_back(local_vector + + Vector3(0, -1, 1))
-	neighbours.push_back(local_vector + Vector3(-1, 0, 1))
-	neighbours.push_back(local_vector + Vector3(-1, 1, 0))
-	neighbours.push_back(local_vector + Vector3(0, 1, -1))
-	neighbours.push_back(local_vector + Vector3(1, 0, -1))
+	if all_local_positions.values().has(local_vector + Vector3(1, -1, 0)):
+		neighbours.push_back(local_vector + Vector3(1, -1, 0))
+	if all_local_positions.values().has(local_vector + Vector3(0, -1, 1)):
+		neighbours.push_back(local_vector + Vector3(0, -1, 1))
+	if all_local_positions.values().has(local_vector + Vector3(-1, 0, 1)):
+		neighbours.push_back(local_vector + Vector3(-1, 0, 1))
+	if all_local_positions.values().has(local_vector + Vector3(-1, 1, 0)):
+		neighbours.push_back(local_vector + Vector3(-1, 1, 0))
+	if all_local_positions.values().has(local_vector + Vector3(0, 1, -1)):
+		neighbours.push_back(local_vector + Vector3(0, 1, -1))
+	if all_local_positions.values().has(local_vector + Vector3(1, 0, -1)):
+		neighbours.push_back(local_vector + Vector3(1, 0, -1))
+		
 	return neighbours
 
 func get_distance(pos1, pos2):
