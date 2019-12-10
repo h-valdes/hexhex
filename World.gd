@@ -51,6 +51,5 @@ func right_click(position):
 				var neighbours = map.get_neighbours(data["local_position"])
 				map.emit_signal("show_neighbours", neighbours)
 				map.set_selected_hex(data["local_position"])
-				print(data)
 	else:
 		map.emit_signal("click_outside")

@@ -12,6 +12,7 @@ func _init(global_position, local_position, HEX_SCALE):
 	data = {
 		"type": "hexagon",
 		"is_selected": false,
+		"is_obstacle": false,
 		"local_position": local_position,
 		"global_position": global_position
 	}	

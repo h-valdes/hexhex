@@ -9,6 +9,7 @@ const knight = preload("res://assets/characters/knight/Knight.tscn")
 var selected_hex
 var all_hex = []
 var all_local_positions = {}
+var obstacle_positions = []
 var map_limits = {
 	"max_x": 0,
 	"min_x": 0,
@@ -39,6 +40,12 @@ func create(levels):
 	connect("click_outside", hex, "_on_click_outside")
 	connect("show_neighbours", hex, "_on_show_neighbours")
 	connect("show_line", hex, "_on_show_line")
+	
+	var kn = knight.instance()
+	add_child(kn)
+	kn.translate(global_position)
+	obstacle_positions.push_back(global_position)
+	
 	all_hex.push_back(global_position)
 	all_local_positions[global_position] = local_position
 	var new_hex = []
@@ -80,9 +87,9 @@ func create(levels):
 					all_local_positions[global_position] = local_position
 					
 					# Add Figure over Hex
-					var kn = knight.instance()
-					add_child(kn)
-					kn.translate(global_position)
+#					var kn = knight.instance()
+#					add_child(kn)
+#					kn.translate(global_position)
 					
 					# Determine min, max values
 					if global_position.x > map_limits["max_x"]:
@@ -100,19 +107,15 @@ func create(levels):
 
 func get_neighbours(local_vector):
 	var neighbours = []
-	if all_local_positions.values().has(local_vector + Vector3(1, -1, 0)):
-		neighbours.push_back(local_vector + Vector3(1, -1, 0))
-	if all_local_positions.values().has(local_vector + Vector3(0, -1, 1)):
-		neighbours.push_back(local_vector + Vector3(0, -1, 1))
-	if all_local_positions.values().has(local_vector + Vector3(-1, 0, 1)):
-		neighbours.push_back(local_vector + Vector3(-1, 0, 1))
-	if all_local_positions.values().has(local_vector + Vector3(-1, 1, 0)):
-		neighbours.push_back(local_vector + Vector3(-1, 1, 0))
-	if all_local_positions.values().has(local_vector + Vector3(0, 1, -1)):
-		neighbours.push_back(local_vector + Vector3(0, 1, -1))
-	if all_local_positions.values().has(local_vector + Vector3(1, 0, -1)):
-		neighbours.push_back(local_vector + Vector3(1, 0, -1))
-		
+	var vectors = [Vector3(1, -1, 0), Vector3(0, -1, 1), Vector3(-1, 0, 1),
+		Vector3(-1, 1, 0), Vector3(0, 1, -1), Vector3(1, 0, -1)
+	]
+	var local_positions = all_local_positions.values()
+	for vector in vectors:
+		var neighbour_vector = local_vector + vector
+		if local_positions.has(neighbour_vector) && !obstacle_positions.has(neighbour_vector):
+			neighbours.push_back(neighbour_vector)
+					
 	return neighbours
 
 func get_distance(pos1, pos2):
@@ -181,13 +184,13 @@ func pathfinding(start, goal):
 				came_from[next] = current
 	var path = []
 	find_path(goal, came_from, path)
-	print(path)
 	return path
 	
-func find_path(hex, came_from, path):
-	path.push_back(hex)
-	if came_from[hex] != null:
-		var new_hex = came_from[hex]
-		find_path(new_hex, came_from, path)
-	else:
-		return path
+func find_path(hex, came_from, path):	
+	if came_from.has(hex):
+		path.push_back(hex)
+		if came_from[hex] != null:
+			var new_hex = came_from[hex]
+			find_path(new_hex, came_from, path)
+		else:
+			return path
