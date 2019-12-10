@@ -3,12 +3,22 @@ extends KinematicBody
 var velocity = Vector3(0, 0, 0)
 const SPEED = 10
 var angle = 0.1
+var camera 
 
 func _ready():
-	pass
+	camera = get_node("/root/World/CameraBody/Camera")
+
+func _unhandled_input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_WHEEL_UP:
+			if event.pressed:
+				camera.translate(Vector3(0, 0, -1))
+		if event.button_index == BUTTON_WHEEL_DOWN:
+			if event.pressed:
+				camera.translate(Vector3(0, 0, 1))
 
 func _physics_process(delta):
-	var camera = get_node("/root/World/CameraBody/Camera")
+	
 	var angle_camera = (PI * 55) / 180
 	# Move Camera
 	if Input.is_action_pressed("ui_right"):
@@ -21,6 +31,11 @@ func _physics_process(delta):
 	elif Input.is_action_pressed("ui_down"):
 		camera.translate(Vector3(0, -1, 1))
 	
+	# Zoom
+	if Input.is_action_pressed("scroll_up"):
+		camera.translate(Vector3(0, 1, 1))
+	elif Input.is_action_pressed("scroll_down"):
+		camera.translate(Vector3(0, -1, -1))
 	
 	# Rotate Camera
 	if Input.is_action_pressed("rotation_right"):
