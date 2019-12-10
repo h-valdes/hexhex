@@ -23,7 +23,7 @@ func _physics_process(delta):
 	
 	
 	# Rotate Camera
-	if Input.is_action_pressed("rotation") && Input.is_action_pressed("ui_right"):
+	if Input.is_action_pressed("rotation_right"):
 		var old_pos = global_transform.origin
 		angle = 0.1
 		var new_pos = Vector3(
@@ -33,7 +33,7 @@ func _physics_process(delta):
 		)
 		global_transform.origin = new_pos
 		camera.rotate(Vector3(0, 1, 0), 0.1)
-	elif Input.is_action_pressed("rotation") && Input.is_action_pressed("ui_left"):
+	elif Input.is_action_pressed("rotation_left"):
 		var old_pos = global_transform.origin
 		angle = -0.1
 		var new_pos = Vector3(
