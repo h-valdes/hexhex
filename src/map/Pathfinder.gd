@@ -6,8 +6,20 @@ var positions
 var obstacles
 
 func _init(_positions, _obstacles):
-    positions = _positions
-    obstacles = _obstacles
+	positions = _positions
+	obstacles = _obstacles
+
+func get_positions():
+	return positions
+
+func set_positions(_positions):
+	positions = _positions
+
+func get_obstacles():
+	return obstacles
+
+func set_obstacles(_obstacles):
+	obstacles = _obstacles
 
 func priorityComparisson(a, b):
 	# [Vector3, priority]

@@ -6,10 +6,11 @@ signal click
 signal click_outside
 signal show_neighbours
 signal show_line
+
 const HEX_SCALE = 5
 
 var selected_hex
-var all_hex = []
+var global_positions = []
 var local_positions = {}
 var obstacle_positions = []
 var pathfinder
@@ -50,7 +51,7 @@ func create(levels):
 	connect("show_neighbours", hex, "_on_show_neighbours")
 	connect("show_line", hex, "_on_show_line")	
 	
-	all_hex.push_back(global_position)
+	global_positions.push_back(global_position)
 	local_positions[global_position] = local_position
 	var new_hex = []
 	var old_hex = []
@@ -100,7 +101,7 @@ func create(levels):
 					if global_position.z < map_limits["min_z"]:
 						map_limits["min_z"] = global_position.z
 						
-		all_hex += new_hex
+		global_positions += new_hex
 		old_hex = new_hex
 		new_hex = []
 
@@ -122,8 +123,8 @@ func add_random_knights(count):
 		var knight = load("res://entities/knight/knight.gd").new()
 		var rng = RandomNumberGenerator.new()
 		rng.randomize()
-		var random_index = rng.randi_range(0, all_hex.size() - 1)
-		var kn_global_position = all_hex[random_index]
+		var random_index = rng.randi_range(0, global_positions.size() - 1)
+		var kn_global_position = global_positions[random_index]
 		var kn_local_position = local_positions[kn_global_position]
 		if !obstacle_positions.has(kn_local_position):
 			add_child(knight)
