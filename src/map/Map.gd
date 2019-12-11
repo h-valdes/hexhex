@@ -120,7 +120,7 @@ func get_shortest_path(start, goal):
 
 func add_random_knights(count):
 	while count > 0:
-		var knight = load("res://entities/knight/knight.gd").new()
+		var knight = load("res://src/knight/knight.gd").new()
 		var rng = RandomNumberGenerator.new()
 		rng.randomize()
 		var random_index = rng.randi_range(0, global_positions.size() - 1)

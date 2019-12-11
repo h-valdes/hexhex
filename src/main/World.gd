@@ -28,17 +28,17 @@ func raycast_collider(position):
 
 func left_click(position):
 	# Function for the left click (mouse) event
-	var collider_dict = raycast_collider(position)["collider"].get_meta("data")
-	var reference_hex = map.get_selected_hex()
-	if (reference_hex != null) && collider_dict:
-		if collider_dict["type"] == "hexagon":
-			var new_hex = collider_dict["local_position"]
-			if reference_hex != new_hex:
-				# var line_members = map.hex_linedraw(reference_hex, new_hex)
-				var line_members = map.get_shortest_path(reference_hex, new_hex)
-				map.emit_signal("show_line", line_members)
-				
-			
+	if raycast_collider(position):
+		var collider_dict = raycast_collider(position)["collider"].get_meta("data")
+		var reference_hex = map.get_selected_hex()
+		if (reference_hex != null) && collider_dict:
+			if collider_dict["type"] == "hexagon":
+				var new_hex = collider_dict["local_position"]
+				if reference_hex != new_hex:
+					# var line_members = map.hex_linedraw(reference_hex, new_hex)
+					var line_members = map.get_shortest_path(reference_hex, new_hex)
+					map.emit_signal("show_line", line_members)
+					
 func right_click(position):
 	# Function for the right click (mouse) event
 	var collider_dict = raycast_collider(position)
