@@ -13,7 +13,7 @@ func priorityComparisson(a, b):
 	# [Vector3, priority]
 	return a[1] > b[1]
 
-func pathfinding(start, goal):
+func find(start, goal):
 	# Using A-Star Algorithm from redblobgames.com
 	var frontier = []
 	frontier.push_back([start, 0])
@@ -36,14 +36,14 @@ func pathfinding(start, goal):
 				frontier.sort_custom(self, "priorityComparisson")
 				came_from[next] = current
 	var path = []
-	find_path(goal, came_from, path)
+	recursive_path(goal, came_from, path)
 	return path
 	
-func find_path(hex, came_from, path):
+func recursive_path(hex, came_from, path):
 	if came_from.has(hex):
 		path.push_back(hex)
 		if came_from[hex] != null:
 			var new_hex = came_from[hex]
-			find_path(new_hex, came_from, path)
+			recursive_path(new_hex, came_from, path)
 		else:
 			return path

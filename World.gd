@@ -35,7 +35,7 @@ func left_click(position):
 			var new_hex = collider_dict["local_position"]
 			if reference_hex != new_hex:
 				# var line_members = map.hex_linedraw(reference_hex, new_hex)
-				var line_members = map.pathfinding(reference_hex, new_hex)
+				var line_members = map.get_shortest_path(reference_hex, new_hex)
 				map.emit_signal("show_line", line_members)
 				
 			

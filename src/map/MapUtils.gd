@@ -1,6 +1,7 @@
 # Utility functions for the map
 
 static func get_distance(a, b):
+    # Obtain the Manhatan distance between 2 hexagons
     var distance = (abs(a.x - b.x) 
                 + abs(a.y - b.y) 
                 + abs(a.z - b.z))/2
@@ -15,6 +16,7 @@ static func hex_lerp(a, b, t):
         general_lerp(a.z, b.z, t))
 
 static func hex_round(hex):
+    # Aproximation of floating coordinates to nearest hexagon
     var rx = round(hex.x)
     var ry = round(hex.y)
     var rz = round(hex.z)
@@ -33,6 +35,7 @@ static func hex_round(hex):
     return Vector3(rx, ry, rz)
 
 static func get_neighbours(local_vector, positions, obstacles):
+    # Obtain Neighbours of an hexagon, it omits the obstacles near it
     var neighbours = []
     var vectors = [Vector3(1, -1, 0), Vector3(0, -1, 1), Vector3(-1, 0, 1),
         Vector3(-1, 1, 0), Vector3(0, 1, -1), Vector3(1, 0, -1)

@@ -114,8 +114,8 @@ func hex_linedraw(a, b):
 		results.push_back(MapUtils.hex_round(MapUtils.hex_lerp(a, b, 1.0/N * i)))
 	return results
 
-func pathfinding(start, goal):
-	return pathfinder.pathfinding(start, goal)
+func get_shortest_path(start, goal):
+	return pathfinder.find(start, goal)
 
 func add_random_knights(count):
 	while count > 0:
