@@ -12,6 +12,7 @@ var selected_hex
 var all_hex = []
 var local_positions = {}
 var obstacle_positions = []
+var pathfinder
 var map_limits = {
 	"max_x": 0,
 	"min_x": 0,
@@ -21,6 +22,7 @@ var map_limits = {
 
 func _init(levels):
 	create(levels)
+	pathfinder = load("res://src/map/Pathfinder.gd").new(local_positions, obstacle_positions)
 	add_random_knights(10)
 
 func get_selected_hex():
@@ -112,45 +114,8 @@ func hex_linedraw(a, b):
 		results.push_back(MapUtils.hex_round(MapUtils.hex_lerp(a, b, 1.0/N * i)))
 	return results
 
-func priorityComparisson(a, b):
-	# [Vector3, priority]
-	return a[1] > b[1]
-
 func pathfinding(start, goal):
-	# Using A-Star Algorithm from redblobgames.com
-	var frontier = []
-	frontier.push_back([start, 0])
-	var came_from = {}
-	var cost_so_far = {}
-	came_from[start] = null
-	cost_so_far[start] = 0
-	var count = 0
-	while !frontier.empty():
-		var current = frontier.back()[0]
-		frontier.pop_back()
-		if current == goal:
-			break
-
-		for next in MapUtils.get_neighbours(current, local_positions, obstacle_positions):
-			var new_cost = cost_so_far[current] + 1 # Change to graph.cost(current, next)
-			if !cost_so_far.has(next) || new_cost < cost_so_far[next]:
-				cost_so_far[next] = new_cost
-				var priority = new_cost + MapUtils.get_distance(goal, next)
-				frontier.push_front([next, priority])
-				frontier.sort_custom(self, "priorityComparisson")
-				came_from[next] = current
-	var path = []
-	find_path(goal, came_from, path)
-	return path
-	
-func find_path(hex, came_from, path):
-	if came_from.has(hex):
-		path.push_back(hex)
-		if came_from[hex] != null:
-			var new_hex = came_from[hex]
-			find_path(new_hex, came_from, path)
-		else:
-			return path
+	return pathfinder.pathfinding(start, goal)
 
 func add_random_knights(count):
 	while count > 0:
