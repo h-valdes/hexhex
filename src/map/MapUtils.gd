@@ -31,3 +31,16 @@ static func hex_round(hex):
         rz = -rx-ry
 
     return Vector3(rx, ry, rz)
+
+static func get_neighbours(local_vector, positions, obstacles):
+    var neighbours = []
+    var vectors = [Vector3(1, -1, 0), Vector3(0, -1, 1), Vector3(-1, 0, 1),
+        Vector3(-1, 1, 0), Vector3(0, 1, -1), Vector3(1, 0, -1)
+    ]
+    for vector in vectors:
+        var neighbour_vector = local_vector + vector
+        if positions.values().has(neighbour_vector) && \
+            !obstacles.has(neighbour_vector):
+            neighbours.push_back(neighbour_vector)
+                    
+    return neighbours

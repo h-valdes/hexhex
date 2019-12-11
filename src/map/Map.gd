@@ -103,17 +103,7 @@ func create(levels):
 		new_hex = []
 
 func get_neighbours(local_vector):
-	var neighbours = []
-	var vectors = [Vector3(1, -1, 0), Vector3(0, -1, 1), Vector3(-1, 0, 1),
-		Vector3(-1, 1, 0), Vector3(0, 1, -1), Vector3(1, 0, -1)
-	]
-	for vector in vectors:
-		var neighbour_vector = local_vector + vector
-		if local_positions.values().has(neighbour_vector) && \
-			!obstacle_positions.has(neighbour_vector):
-			neighbours.push_back(neighbour_vector)
-					
-	return neighbours
+	return MapUtils.get_neighbours(local_vector, local_positions, obstacle_positions)
 
 func hex_linedraw(a, b):
 	var N = MapUtils.get_distance(a, b)
@@ -141,7 +131,7 @@ func pathfinding(start, goal):
 		if current == goal:
 			break
 
-		for next in get_neighbours(current):
+		for next in MapUtils.get_neighbours(current, local_positions, obstacle_positions):
 			var new_cost = cost_so_far[current] + 1 # Change to graph.cost(current, next)
 			if !cost_so_far.has(next) || new_cost < cost_so_far[next]:
 				cost_so_far[next] = new_cost
