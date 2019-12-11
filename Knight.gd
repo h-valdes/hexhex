@@ -1,4 +1,4 @@
-extends Node
+extends KinematicBody
 
 const knight = preload("res://assets/characters/knight/Knight.tscn")
 var knight_instance

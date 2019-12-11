@@ -19,6 +19,7 @@ var map_limits = {
 
 func _init(levels):
 	create(levels)
+	add_random_knights(10)
 
 func get_selected_hex():
 	return selected_hex
@@ -188,3 +189,17 @@ func find_path(hex, came_from, path):
 			find_path(new_hex, came_from, path)
 		else:
 			return path
+
+func add_random_knights(count):
+	while count > 0:
+		var knight = load("res://Knight.gd").new()
+		var rng = RandomNumberGenerator.new()
+		rng.randomize()
+		var random_index = rng.randi_range(0, all_hex.size())
+		var kn_global_position = all_hex[random_index]
+		var kn_local_position = local_positions[kn_global_position]
+		if !obstacle_positions.has(kn_local_position):
+			add_child(knight)
+			knight.translate(kn_global_position)
+			obstacle_positions.push_back(kn_local_position)
+			count -= 1
