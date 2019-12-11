@@ -192,10 +192,10 @@ func find_path(hex, came_from, path):
 
 func add_random_knights(count):
 	while count > 0:
-		var knight = load("res://Knight.gd").new()
+		var knight = load("res://entities/knight/knight.gd").new()
 		var rng = RandomNumberGenerator.new()
 		rng.randomize()
-		var random_index = rng.randi_range(0, all_hex.size())
+		var random_index = rng.randi_range(0, all_hex.size() - 1)
 		var kn_global_position = all_hex[random_index]
 		var kn_local_position = local_positions[kn_global_position]
 		if !obstacle_positions.has(kn_local_position):

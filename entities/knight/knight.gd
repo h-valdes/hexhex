@@ -1,6 +1,6 @@
 extends KinematicBody
 
-const knight = preload("res://assets/characters/knight/Knight.tscn")
+const knight = preload("res://entities/knight/knight.tscn")
 var knight_instance
 var global_position
 var local_position

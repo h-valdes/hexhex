@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/scene.gltf-f5774b1ed46cef25ce1e09f100520009.scn"
+path="res://.import/scene.gltf-15db79dbb2ab4c729819062c165bb948.scn"
 
 [deps]
 
-source_file="res://assets/characters/knight/scene.gltf"
-dest_files=[ "res://.import/scene.gltf-f5774b1ed46cef25ce1e09f100520009.scn" ]
+source_file="res://entities/knight/scene.gltf"
+dest_files=[ "res://.import/scene.gltf-15db79dbb2ab4c729819062c165bb948.scn" ]
 
 [params]
 
