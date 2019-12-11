@@ -1,5 +1,7 @@
 extends Spatial
 
+const MapUtils = preload("res://src/map/MapUtils.gd")
+
 signal click
 signal click_outside
 signal show_neighbours
@@ -37,9 +39,9 @@ func create(levels):
 	var hex
 	var global_position = Vector3(0, 0, 0)
 	var local_position = Vector3(0, 0, 0)
-	var base_position = global_position
+	
 	# Initialize the center (and first) hexagon tile
-	hex = load("res://Hexagon.gd").new(global_position, local_position, HEX_SCALE)
+	hex = load("res://src/map/Hexagon.gd").new(global_position, local_position, HEX_SCALE)
 	add_child(hex)
 	connect("click", hex, "_on_click")
 	connect("click_outside", hex, "_on_click_outside")
@@ -76,7 +78,7 @@ func create(levels):
 					local_position =  local_vector + Vector3(1, 0, -1)
 					
 				if !local_positions.has(global_position):
-					hex = load("res://Hexagon.gd").new(global_position, local_position, HEX_SCALE)
+					hex = load("res://src/map/Hexagon.gd").new(global_position, local_position, HEX_SCALE)
 					add_child(hex)
 					connect("click", hex, "_on_click")
 					connect("click_outside", hex, "_on_click_outside")
@@ -113,41 +115,11 @@ func get_neighbours(local_vector):
 					
 	return neighbours
 
-func get_distance(pos1, pos2):
-	var distance = (abs(pos1.x - pos2.x) + abs(pos1.y - pos2.y) + abs(pos1.z - pos2.z))/2
-	return distance
-
-func hex_round(hex):
-	var rx = round(hex.x)
-	var ry = round(hex.y)
-	var rz = round(hex.z)
-	
-	var x_diff = abs(rx - hex.x)
-	var y_diff = abs(ry - hex.y)
-	var z_diff = abs(rz - hex.z)
-	
-	if x_diff > y_diff and x_diff > z_diff:
-		rx = -ry-rz
-	elif y_diff > z_diff:
-		ry = -rx-rz
-	else:
-		rz = -rx-ry
-	
-	return Vector3(rx, ry, rz)
-
-func general_lerp(a, b, t):
-	return a + (b - a) * t
-
-func hex_lerp(a, b, t):
-	return Vector3(general_lerp(a.x, b.x, t), 
-				general_lerp(a.y, b.y, t), 
-				general_lerp(a.z, b.z, t))
-
 func hex_linedraw(a, b):
-	var N = get_distance(a, b)
+	var N = MapUtils.get_distance(a, b)
 	var results = []
 	for i in range(0, N+1):
-		results.push_back(hex_round(hex_lerp(a, b, 1.0/N * i)))
+		results.push_back(MapUtils.hex_round(MapUtils.hex_lerp(a, b, 1.0/N * i)))
 	return results
 
 func priorityComparisson(a, b):
@@ -173,7 +145,7 @@ func pathfinding(start, goal):
 			var new_cost = cost_so_far[current] + 1 # Change to graph.cost(current, next)
 			if !cost_so_far.has(next) || new_cost < cost_so_far[next]:
 				cost_so_far[next] = new_cost
-				var priority = new_cost + get_distance(goal, next)
+				var priority = new_cost + MapUtils.get_distance(goal, next)
 				frontier.push_front([next, priority])
 				frontier.sort_custom(self, "priorityComparisson")
 				came_from[next] = current

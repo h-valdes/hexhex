@@ -1,6 +1,5 @@
 extends Spatial
 
-var id
 var data
 var mesh
 var static_body

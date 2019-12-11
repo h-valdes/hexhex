@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Spatial",
 "class": "Hexagon",
 "language": "GDScript",
-"path": "res://Hexagon.gd"
+"path": "res://src/map/Hexagon.gd"
 } ]
 _global_script_class_icons={
 "Hexagon": ""
