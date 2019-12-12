@@ -15,6 +15,8 @@ func _ready():
 	map = load("res://src/map/Map.gd").new(3)
 	add_child(map)
 	
+	gui.set_map(map)
+	
 	camera.set_meta("world_dimension", map.get_map_limits())
 
 	load_characters()
@@ -49,6 +51,7 @@ func left_click(position):
 					# var line_members = map.hex_linedraw(reference_hex, new_hex)
 					var line_members = map.get_shortest_path(reference_hex, new_hex)
 					map.emit_signal("show_line", line_members)
+					gui.display_actions(new_hex)
 					
 func right_click(position):
 	# Function for the right click (mouse) event
@@ -80,9 +83,11 @@ func load_characters():
 	rng.randomize()
 
 	var random_index = rng.randi_range(0, global_positions.size() - 1)
-	var global_position = global_positions[random_index]
+	var global_position = global_positions.values()[random_index]
+	print(global_position)
+	
 	var local_position = local_positions[global_position]
-
+	print(local_position)
 	if !entities.keys().has(local_position):
 		var knight = load("res://src/knight/knight.gd").new()
 		add_child(knight)

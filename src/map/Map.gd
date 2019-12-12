@@ -6,11 +6,12 @@ signal click
 signal click_outside
 signal show_neighbours
 signal show_line
+signal move_entity
 
 const HEX_SCALE = 5
 
 var selected_hex
-var global_positions = []
+var global_positions = {}
 var local_positions = {}
 var entities = {}
 var pathfinder
@@ -23,6 +24,7 @@ var map_limits = {
 
 func _init(levels):
 	create(levels)
+	connect("move_entity", self, "_on_move_entity")
 	pathfinder = load("res://src/map/Pathfinder.gd").new(local_positions)
 
 func get_selected_hex():
@@ -49,9 +51,14 @@ func get_entities():
 func add_entity(new_entity, new_local_position):
 	entities[new_local_position] = new_entity
 
-func move_entity(entity, old_position, new_position):
-	entities.erase(old_position)
+func _on_move_entity(entity, new_position):
+	var old_global_position = global_positions[entity.get_local_position()]
+	var new_global_position = global_positions[new_position]
+	var direction_vector = new_global_position - old_global_position
+	entities.erase(entity.get_local_position())
 	entities[new_position] = entity
+	entity.set_local_position(new_position)
+	entity.translate(direction_vector)
 
 func get_entity(position):
 	return entities[position]
@@ -69,7 +76,7 @@ func create(levels):
 	connect("show_neighbours", hex, "_on_show_neighbours")
 	connect("show_line", hex, "_on_show_line")	
 	
-	global_positions.push_back(global_position)
+	global_positions[local_position] = global_position
 	local_positions[global_position] = local_position
 	var new_hex = []
 	var old_hex = []
@@ -107,7 +114,9 @@ func create(levels):
 					connect("show_line", hex, "_on_show_line")
 					hex.translate(global_position)
 					new_hex.push_back(global_position)
+					
 					local_positions[global_position] = local_position
+					global_positions[local_position] = global_position
 					
 					# Determine min, max values
 					if global_position.x > map_limits["max_x"]:
@@ -119,7 +128,6 @@ func create(levels):
 					if global_position.z < map_limits["min_z"]:
 						map_limits["min_z"] = global_position.z
 						
-		global_positions += new_hex
 		old_hex = new_hex
 		new_hex = []
 

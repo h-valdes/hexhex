@@ -8,8 +8,10 @@ margin_right = 8.0
 margin_bottom = 8.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PopupEntityAction"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 56.0
+margin_bottom = 48.0
 
 [node name="AttackButton" type="Button" parent="PopupEntityAction/VBoxContainer"]
 margin_left = 4.0
