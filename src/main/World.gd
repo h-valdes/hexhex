@@ -1,12 +1,19 @@
 extends Spatial
 var map
 var camera
+var gui
 func _ready():
+	# Add GUI scene to game
+	gui = preload("res://src/interface/UI.tscn")
+	add_child(gui.instance())
+	
 	camera = get_node("/root/World/CameraBody/Camera")
+	
 	# Generate the hexagon grid map and add it as a child of the scene
 	map = load("res://src/map/Map.gd").new(3)
-	camera.set_meta("world_dimension", map.get_map_limits())
 	add_child(map)
+	
+	camera.set_meta("world_dimension", map.get_map_limits())
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton:

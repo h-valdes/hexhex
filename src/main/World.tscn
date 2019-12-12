@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://src/main/World.gd" type="Script" id=1]
-[ext_resource path="res://CameraBody.gd" type="Script" id=2]
+[ext_resource path="res://src/camerabody/CameraBody.gd" type="Script" id=2]
 
 [node name="World" type="Spatial"]
 script = ExtResource( 1 )
@@ -13,28 +13,3 @@ script = ExtResource( 2 )
 
 [node name="Camera" type="Camera" parent="CameraBody"]
 transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0 )
-
-[node name="UI" type="Control" parent="."]
-anchor_right = 0.29
-anchor_bottom = 1.0
-margin_top = 487.0
-margin_right = -87.96
-
-[node name="Panel" type="Panel" parent="UI"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Panel"]
-margin_right = 40.0
-margin_bottom = 40.0
-
-[node name="Label" type="Label" parent="UI/Panel/VBoxContainer"]
-margin_right = 40.0
-margin_bottom = 14.0
-text = "hola1"
-
-[node name="Label2" type="Label" parent="UI/Panel/VBoxContainer"]
-margin_top = 18.0
-margin_right = 40.0
-margin_bottom = 32.0
-text = "hola2"
