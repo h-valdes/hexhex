@@ -2,10 +2,12 @@ extends Spatial
 var map
 var camera
 var gui
+
 func _ready():
 	# Add GUI scene to game
-	gui = preload("res://src/interface/UI.tscn")
-	add_child(gui.instance())
+	gui = load("res://src/interface/UI.tscn")
+	gui = gui.instance()
+	add_child(gui)
 	
 	camera = get_node("/root/World/CameraBody/Camera")
 	
@@ -57,9 +59,15 @@ func right_click(position):
 			map.emit_signal("click", data)
 			if data["type"] == "hexagon":
 				# If the collider is of the type hexagon, show the neighbours
-				var neighbours = map.get_neighbours(data["local_position"])
+				var local_position = data["local_position"]				
+				var neighbours = map.get_neighbours(local_position)
 				map.emit_signal("show_neighbours", neighbours)
-				map.set_selected_hex(data["local_position"])
+				map.set_selected_hex(local_position)
+				if map.has_entity(local_position):
+					var entity = map.get_entity(local_position)
+					gui.set_entity(entity)
+				else:
+					gui.set_entity(null)
 	else:
 		map.emit_signal("click_outside")
 

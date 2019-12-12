@@ -4,6 +4,7 @@ const knight = preload("res://entities/knight/knight.tscn")
 var knight_instance
 var global_position
 var local_position
+var data
 
 func _init():
 	create()

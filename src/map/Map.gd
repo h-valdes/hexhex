@@ -40,6 +40,9 @@ func get_local_positions():
 func get_global_positions():
 	return global_positions
 
+func has_entity(position):
+	return entities.keys().has(position)
+
 func get_entities():
 	return entities
 
