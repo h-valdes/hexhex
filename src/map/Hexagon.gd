@@ -50,7 +50,7 @@ func _on_show_neighbours(neighbours):
 
 func _on_show_line(members):
 	if members.has(data["local_position"]):
-		set_color(Color(0, 0, 0.5))
+		set_color(Color(0, 0.5, 0.5))
 	elif !data["is_selected"]:
 		set_color(Color(0.8, 0, 0.0))
 

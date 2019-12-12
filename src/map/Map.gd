@@ -86,23 +86,26 @@ func create(levels):
 		for base_hex in old_hex:
 			for i in range(1, 7):
 				var local_vector = local_positions.get(base_hex)
+				var offset1 = Vector3(1, 0, 0) / 5
+				var offset2 = Vector3(0.5, 0, 0.75) / 5
+				var offset3 = Vector3(-0.5, 0, 0.75) / 5
 				if i == 1:
-					global_position = base_hex+ Vector3(1, 0, 0) * HEX_SCALE
+					global_position = base_hex+ Vector3(1, 0, 0) * HEX_SCALE + offset1
 					local_position =  local_vector + Vector3(1, -1, 0)
 				elif i == 2:
-					global_position = base_hex + Vector3(0.5, 0, 0.75) * HEX_SCALE
+					global_position = base_hex + Vector3(0.5, 0, 0.75) * HEX_SCALE + offset2
 					local_position =  local_vector + + Vector3(0, -1, 1)
 				elif i == 3:
-					global_position = base_hex +Vector3(-0.5, 0, 0.75) * HEX_SCALE
+					global_position = base_hex +Vector3(-0.5, 0, 0.75) * HEX_SCALE + offset3
 					local_position =  local_vector + Vector3(-1, 0, 1)
 				elif i == 4:
-					global_position = base_hex + Vector3(-1, 0, 0) * HEX_SCALE
+					global_position = base_hex + Vector3(-1, 0, 0) * HEX_SCALE - offset1
 					local_position =  local_vector + Vector3(-1, 1, 0)
 				elif i == 5:
-					global_position = base_hex + Vector3(-0.5, 0, -0.75) * HEX_SCALE
+					global_position = base_hex + Vector3(-0.5, 0, -0.75) * HEX_SCALE - offset2
 					local_position =  local_vector + Vector3(0, 1, -1)
 				elif i == 6:
-					global_position = base_hex + Vector3(0.5, 0, -0.75) * HEX_SCALE
+					global_position = base_hex + Vector3(0.5, 0, -0.75) * HEX_SCALE - offset3
 					local_position =  local_vector + Vector3(1, 0, -1)
 					
 				if !local_positions.has(global_position):
