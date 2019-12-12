@@ -15,7 +15,7 @@ func _unhandled_input(event):
 		# Zoom control
 		if event.button_index == BUTTON_WHEEL_UP:
 			if event.pressed:
-				if camera_position.y > 8:
+				if camera_position.y > 4:
 					camera.translate(Vector3(0, 0, -1))
 		if event.button_index == BUTTON_WHEEL_DOWN:
 			if event.pressed:
