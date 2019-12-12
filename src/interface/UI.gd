@@ -25,6 +25,9 @@ func _on_attack_pressed():
 
 func set_map(_map):
 	map = _map
+
+func has_entity():
+	return entity != null
 	
 func set_entity(_entity):
 	entity = _entity
