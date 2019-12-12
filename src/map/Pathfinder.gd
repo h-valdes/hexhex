@@ -3,11 +3,9 @@ extends Node
 
 const MapUtils = preload("res://src/map/MapUtils.gd")
 var positions
-var obstacles
 
-func _init(_positions, _obstacles):
+func _init(_positions):
 	positions = _positions
-	obstacles = _obstacles
 
 func get_positions():
 	return positions
@@ -15,17 +13,11 @@ func get_positions():
 func set_positions(_positions):
 	positions = _positions
 
-func get_obstacles():
-	return obstacles
-
-func set_obstacles(_obstacles):
-	obstacles = _obstacles
-
 func priorityComparisson(a, b):
 	# [Vector3, priority]
 	return a[1] > b[1]
 
-func find(start, goal):
+func find(start, goal, obstacles):
 	# Using A-Star Algorithm from redblobgames.com
 	var frontier = []
 	frontier.push_back([start, 0])

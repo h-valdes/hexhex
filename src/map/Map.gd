@@ -12,7 +12,7 @@ const HEX_SCALE = 5
 var selected_hex
 var global_positions = []
 var local_positions = {}
-var obstacle_positions = []
+var entities = {}
 var pathfinder
 var map_limits = {
 	"max_x": 0,
@@ -23,8 +23,7 @@ var map_limits = {
 
 func _init(levels):
 	create(levels)
-	pathfinder = load("res://src/map/Pathfinder.gd").new(local_positions, obstacle_positions)
-	add_random_knights(10)
+	pathfinder = load("res://src/map/Pathfinder.gd").new(local_positions)
 
 func get_selected_hex():
 	return selected_hex
@@ -37,6 +36,22 @@ func get_map_limits():
 
 func get_local_positions():
 	return local_positions
+
+func get_global_positions():
+	return global_positions
+
+func get_entities():
+	return entities
+
+func add_entity(new_entity, new_local_position):
+	entities[new_local_position] = new_entity
+
+func move_entity(entity, old_position, new_position):
+	entities.erase(old_position)
+	entities[new_position] = entity
+
+func get_entity(position):
+	return entities[position]
 	
 func create(levels):
 	var hex
@@ -106,7 +121,7 @@ func create(levels):
 		new_hex = []
 
 func get_neighbours(local_vector):
-	return MapUtils.get_neighbours(local_vector, local_positions, obstacle_positions)
+	return MapUtils.get_neighbours(local_vector, local_positions, entities.keys())
 
 func hex_linedraw(a, b):
 	var N = MapUtils.get_distance(a, b)
@@ -116,18 +131,4 @@ func hex_linedraw(a, b):
 	return results
 
 func get_shortest_path(start, goal):
-	return pathfinder.find(start, goal)
-
-func add_random_knights(count):
-	while count > 0:
-		var knight = load("res://src/knight/knight.gd").new()
-		var rng = RandomNumberGenerator.new()
-		rng.randomize()
-		var random_index = rng.randi_range(0, global_positions.size() - 1)
-		var kn_global_position = global_positions[random_index]
-		var kn_local_position = local_positions[kn_global_position]
-		if !obstacle_positions.has(kn_local_position):
-			add_child(knight)
-			knight.translate(kn_global_position)
-			obstacle_positions.push_back(kn_local_position)
-			count -= 1
+	return pathfinder.find(start, goal, entities.keys())

@@ -15,6 +15,8 @@ func _ready():
 	
 	camera.set_meta("world_dimension", map.get_map_limits())
 
+	load_characters()
+
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
@@ -60,3 +62,22 @@ func right_click(position):
 				map.set_selected_hex(data["local_position"])
 	else:
 		map.emit_signal("click_outside")
+
+func load_characters():
+	var global_positions = map.get_global_positions()
+	var local_positions = map.get_local_positions()
+	var entities = map.get_entities()
+
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+
+	var random_index = rng.randi_range(0, global_positions.size() - 1)
+	var global_position = global_positions[random_index]
+	var local_position = local_positions[global_position]
+
+	if !entities.keys().has(local_position):
+		var knight = load("res://src/knight/knight.gd").new()
+		add_child(knight)
+		knight.translate(global_position)
+		knight.set_local_position(local_position)
+		map.add_entity(knight, local_position)
