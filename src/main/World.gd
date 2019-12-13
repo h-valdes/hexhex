@@ -63,15 +63,19 @@ func right_click(position):
 			map.emit_signal("click", data)
 			if data["type"] == "hexagon":
 				# If the collider is of the type hexagon, show the neighbours
-				var local_position = data["local_position"]				
-				var neighbours = map.get_neighbours(local_position)
-				map.emit_signal("show_neighbours", neighbours)
-				map.set_selected_hex(local_position)
+				var local_position = data["local_position"]
 				if map.has_entity(local_position):
 					var entity = map.get_entity(local_position)
-					gui.set_entity(entity)
+					if !entity.is_obstacle():
+						var neighbours = map.get_neighbours(local_position)
+						map.emit_signal("show_neighbours", neighbours)
+						map.set_selected_hex(local_position)
+						gui.set_entity(entity)
+					else:
+						map.emit_signal("click_outside")
 				else:
 					gui.set_entity(null)
+					map.emit_signal("click_outside")
 	else:
 		map.emit_signal("click_outside")
 

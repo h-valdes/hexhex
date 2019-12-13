@@ -13,3 +13,6 @@ func get_local_position():
 
 func set_local_position(_local_position):
 	local_position = _local_position
+
+func is_obstacle():
+	return false
