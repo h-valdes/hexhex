@@ -49,11 +49,10 @@ func left_click(position):
 				var new_hex = collider_dict["local_position"]
 				if reference_hex != new_hex:
 					# var line_members = map.hex_linedraw(reference_hex, new_hex)
-					var line_members = map.get_shortest_path(reference_hex, new_hex)
-					map.emit_signal("show_line", line_members)
+					var path = map.get_shortest_path(reference_hex, new_hex)
+					map.emit_signal("show_line", path)
 					if gui.has_entity():
-						print(line_members)
-						gui.display_actions(new_hex)
+						gui.display_actions(new_hex, path)
 					
 func right_click(position):
 	# Function for the right click (mouse) event

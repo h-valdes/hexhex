@@ -3,6 +3,7 @@ extends Control
 var entity
 var label_local_position
 var new_position
+var path
 var popup
 var map
 
@@ -18,7 +19,7 @@ func _ready():
 
 func _on_move_pressed():
 	print("move you fool!")
-	map.emit_signal("move_entity", entity, new_position)
+	map.emit_signal("move_entity", entity, new_position, path)
 
 func _on_attack_pressed():
 	print("attack you fool!")
@@ -36,7 +37,8 @@ func set_entity(_entity):
 	else:
 		label_local_position.text = "No entity"
 
-func display_actions(_position):
+func display_actions(_position, _path):
 	new_position = _position
+	path = _path
 	popup.get_child(0).rect_position = get_global_mouse_position()
 	popup.get_child(0).popup()

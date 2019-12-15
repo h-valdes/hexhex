@@ -51,14 +51,18 @@ func get_entities():
 func add_entity(new_entity, new_local_position):
 	entities[new_local_position] = new_entity
 
-func _on_move_entity(entity, new_position):
-	var old_global_position = global_positions[entity.get_local_position()]
-	var new_global_position = global_positions[new_position]
-	var direction_vector = new_global_position - old_global_position
-	entities.erase(entity.get_local_position())
-	entities[new_position] = entity
-	entity.set_local_position(new_position)
-	entity.translate(direction_vector)
+func _on_move_entity(entity, new_position, path):
+	for pos in path:
+		var old_global_position = global_positions[entity.get_local_position()]
+		var new_global_position = global_positions[pos]
+		
+		entities.erase(entity.get_local_position())
+		entities[pos] = entity
+		entity.set_local_position(pos)
+		
+		var direction_vector = new_global_position - old_global_position
+		entity.translate(direction_vector)
+		yield(get_tree().create_timer(0.1), "timeout")
 
 func get_entity(position):
 	return entities[position]
