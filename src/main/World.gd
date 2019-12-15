@@ -52,6 +52,7 @@ func left_click(position):
 					var line_members = map.get_shortest_path(reference_hex, new_hex)
 					map.emit_signal("show_line", line_members)
 					if gui.has_entity():
+						print(line_members)
 						gui.display_actions(new_hex)
 					
 func right_click(position):

@@ -41,6 +41,7 @@ func find(start, goal, obstacles):
 				came_from[next] = current
 	var path = []
 	recursive_path(goal, came_from, path)
+	path.invert()
 	return path
 	
 func recursive_path(hex, came_from, path):
