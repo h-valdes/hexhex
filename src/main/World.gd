@@ -77,8 +77,10 @@ func right_click(position):
 						map.emit_signal("click_outside")
 				else:
 					gui.set_entity(null)
+					map.set_selected_hex(null)
 					map.emit_signal("click_outside")
 	else:
+		map.set_selected_hex(null)
 		map.emit_signal("click_outside")
 
 func load_characters():
