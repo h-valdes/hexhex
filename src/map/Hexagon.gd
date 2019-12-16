@@ -32,13 +32,13 @@ func _on_click(signal_data):
 		data["is_selected"] = true
 		static_body.set_meta("data", data)
 	elif data["local_position"] != signal_data["local_position"] && is_selected:
-		set_color(Color(0.8, 0.0, 0.0))
+		set_color(Color(0.0, 0.69, 0.2))
 		data["is_selected"] = false
 		static_body.set_meta("data", data)
 
 func _on_click_outside():
 	# Change to default color if the mouse clicked outside of the map
-	set_color(Color(0.8, 0.0, 0.0))
+	set_color(Color(0.0, 0.69, 0.2))
 	data["is_selected"] = false
 	static_body.set_meta("data", data)
 
@@ -46,13 +46,13 @@ func _on_show_neighbours(neighbours):
 	if neighbours.has(data["local_position"]):
 		set_color(Color(0, 0.5, 0.0))
 	elif !data["is_selected"]:
-		set_color(Color(0.8, 0, 0.0))
+		set_color(Color(0.0, 0.69, 0.2))
 
 func _on_show_line(members):
 	if members.has(data["local_position"]):
 		set_color(Color(0, 0.5, 0.5))
 	elif !data["is_selected"]:
-		set_color(Color(0.8, 0, 0.0))
+		set_color(Color(0.0, 0.69, 0.2))
 
 func generate_mesh(HEX_SCALE):
 	var st = SurfaceTool.new()
@@ -60,7 +60,7 @@ func generate_mesh(HEX_SCALE):
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	
 	var material = SpatialMaterial.new()
-	material.albedo_color = Color(0.8, 0.0, 0.0)
+	material.albedo_color = Color(0.0, 0.69, 0.2)
 	st.set_material(material)
 	
 	# Triangle 1

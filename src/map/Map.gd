@@ -63,6 +63,8 @@ func _on_move_entity(entity, new_position, path):
 		var direction_vector = new_global_position - old_global_position
 		entity.translate(direction_vector)
 		yield(get_tree().create_timer(0.1), "timeout")
+	set_selected_hex(new_position)
+	emit_signal("click_outside")
 
 func get_entity(position):
 	return entities[position]
