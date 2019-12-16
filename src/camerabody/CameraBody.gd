@@ -51,7 +51,7 @@ func _physics_process(delta):
 			(-1) * old_pos.x * sin(angle) + old_pos.z * cos(angle) 
 		)
 		global_transform.origin = new_pos
-		camera.rotate(Vector3(0, 1, 0)/4, 0.1)
+		camera.rotate(Vector3(0, 1, 0), 0.1)
 	elif Input.is_action_pressed("rotation_left"):
 		var old_pos = global_transform.origin
 		angle = -0.1
@@ -61,5 +61,5 @@ func _physics_process(delta):
 			(-1) * old_pos.x * sin(angle) + old_pos.z * cos(angle) 
 		)
 		global_transform.origin = new_pos
-		camera.rotate(Vector3(0, 1, 0)/4, -0.1)
+		camera.rotate(Vector3(0, 1, 0), -0.1)
 				

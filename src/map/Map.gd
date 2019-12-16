@@ -150,7 +150,7 @@ func get_movement_range(position, distance):
 		if !entities.keys().has(hex):
 			var distance_to_hex = pathfinder.find(position, hex, entities.keys())
 			distance_to_hex = distance_to_hex.size()
-			if distance_to_hex <= distance + 1:
+			if (distance_to_hex <= distance + 1) && (distance_to_hex > 1):
 				results.push_back(hex)
 	return results
 	
