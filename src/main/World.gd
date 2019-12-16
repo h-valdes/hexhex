@@ -50,9 +50,10 @@ func left_click(position):
 				if reference_hex != new_hex:
 					# var line_members = map.hex_linedraw(reference_hex, new_hex)
 					var path = map.get_shortest_path(reference_hex, new_hex)
-					map.emit_signal("show_line", path)
-					if gui.has_entity():
-						gui.display_actions(new_hex, path)
+					if path.size() > 1:
+						map.emit_signal("show_line", path)
+						if gui.has_entity():
+							gui.display_actions(new_hex, path)
 					
 func right_click(position):
 	# Function for the right click (mouse) event
@@ -72,6 +73,7 @@ func right_click(position):
 						map.set_selected_hex(local_position)
 						gui.set_entity(entity)
 					else:
+						map.set_selected_hex(null)
 						map.emit_signal("click_outside")
 				else:
 					gui.set_entity(null)
