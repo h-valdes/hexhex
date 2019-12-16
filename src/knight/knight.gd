@@ -3,6 +3,7 @@ extends KinematicBody
 const knight = preload("res://entities/knight/knight.tscn")
 var knight_instance
 var local_position
+var distance = 3
 
 func _init():
 	knight_instance = knight.instance()

@@ -19,7 +19,7 @@ func _ready():
 
 func _on_move_pressed():
 	print("move you fool!")
-	map.emit_signal("move_entity", entity, new_position, path)
+	map.emit_signal("move_entity", entity, path)
 
 func _on_attack_pressed():
 	print("attack you fool!")

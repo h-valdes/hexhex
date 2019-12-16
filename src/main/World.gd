@@ -68,7 +68,8 @@ func right_click(position):
 				if map.has_entity(local_position):
 					var entity = map.get_entity(local_position)
 					if !entity.is_obstacle():
-						var neighbours = map.get_neighbours(local_position)
+						# var neighbours = map.get_neighbours(local_position)
+						var neighbours = map.get_movement_range(local_position, 2)
 						map.emit_signal("show_neighbours", neighbours)
 						map.set_selected_hex(local_position)
 						gui.set_entity(entity)

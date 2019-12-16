@@ -13,6 +13,9 @@ func get_positions():
 func set_positions(_positions):
 	positions = _positions
 
+func possible_hex(start, distance):
+	pass 
+
 func priorityComparisson(a, b):
 	# [Vector3, priority]
 	return a[1] > b[1]

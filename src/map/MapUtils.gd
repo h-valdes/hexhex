@@ -47,3 +47,12 @@ static func get_neighbours(local_vector, positions, obstacles):
             neighbours.push_back(neighbour_vector)
                     
     return neighbours
+
+static func get_movement_range(position, distance):
+	var results = []
+	for x in range(-distance, distance + 1):
+		for y in range(-distance, distance + 1):
+			for z in range(-distance, distance + 1):
+				if x + y + z == 0:
+					results.push_back(position + Vector3(x, y, z))
+	return results

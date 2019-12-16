@@ -51,7 +51,7 @@ func get_entities():
 func add_entity(new_entity, new_local_position):
 	entities[new_local_position] = new_entity
 
-func _on_move_entity(entity, new_position, path):
+func _on_move_entity(entity, path):
 	for pos in path:
 		var old_global_position = global_positions[entity.get_local_position()]
 		var new_global_position = global_positions[pos]
@@ -142,7 +142,18 @@ func create(levels):
 
 func get_neighbours(local_vector):
 	return MapUtils.get_neighbours(local_vector, local_positions, entities.keys())
-
+	
+func get_movement_range(position, distance):
+	var all_movement_range = MapUtils.get_movement_range(position, distance)
+	var results = []
+	for hex in all_movement_range:
+		if !entities.keys().has(hex):
+			var distance_to_hex = pathfinder.find(position, hex, entities.keys())
+			distance_to_hex = distance_to_hex.size()
+			if distance_to_hex <= distance + 1:
+				results.push_back(hex)
+	return results
+	
 func hex_linedraw(a, b):
 	var N = MapUtils.get_distance(a, b)
 	var results = []
