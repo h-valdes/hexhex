@@ -49,11 +49,14 @@ func left_click(position):
 				var new_hex = collider_dict["local_position"]
 				if reference_hex != new_hex:
 					# var line_members = map.hex_linedraw(reference_hex, new_hex)
-					var path = map.get_shortest_path(reference_hex, new_hex)
-					if path.size() > 1:
-						map.emit_signal("show_line", path)
-						if gui.has_entity():
-							gui.display_actions(new_hex, path)
+					var entity = map.get_entity(reference_hex)
+					var neighbours = map.get_movement_range(reference_hex, entity.get_movement_range())
+					if neighbours.has(new_hex):
+						var path = map.get_shortest_path(reference_hex, new_hex)
+						if path.size() > 1:
+							map.emit_signal("show_line", path)
+							if gui.has_entity():
+								gui.display_actions(new_hex, path)
 					
 func right_click(position):
 	# Function for the right click (mouse) event
@@ -69,7 +72,7 @@ func right_click(position):
 					var entity = map.get_entity(local_position)
 					if !entity.is_obstacle():
 						# var neighbours = map.get_neighbours(local_position)
-						var neighbours = map.get_movement_range(local_position, 2)
+						var neighbours = map.get_movement_range(local_position, entity.get_movement_range())
 						map.emit_signal("show_neighbours", neighbours)
 						map.set_selected_hex(local_position)
 						gui.set_entity(entity)
