@@ -61,7 +61,10 @@ func _on_move_entity(entity, path):
 		entity.set_local_position(pos)
 		
 		var direction_vector = new_global_position - old_global_position
-		entity.translate(direction_vector)
+		var angle = atan2(direction_vector.z, direction_vector.x)
+		
+		entity.global_translate(direction_vector)
+		
 		yield(get_tree().create_timer(0.1), "timeout")
 	set_selected_hex(null)
 	emit_signal("click_outside")
