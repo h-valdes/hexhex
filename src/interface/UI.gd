@@ -3,9 +3,11 @@ extends Control
 var entity
 var label_local_position
 var new_position
+var position
 var path
 var popup
 var map
+var flag_neighbours = false
 
 func _ready():
 	label_local_position = get_node("Panel/EntityList/local_position")
@@ -17,9 +19,17 @@ func _ready():
 	move_button.connect("pressed", self, "_on_move_pressed")
 	attack_button.connect("pressed", self, "_on_attack_pressed")
 
+func get_flag_neighbours():
+	return flag_neighbours
+
+func set_flag_neighbours(_flag_neighbours):
+	flag_neighbours = _flag_neighbours
+
 func _on_move_pressed():
-	print("move you fool!")
-	map.emit_signal("move_entity", entity, path)
+	var neighbours = map.get_movement_range(position, entity.get_movement_range())
+	map.emit_signal("show_neighbours", neighbours)
+	flag_neighbours = true
+	# map.emit_signal("move_entity", entity, path)
 
 func _on_attack_pressed():
 	print("attack you fool!")
@@ -37,6 +47,11 @@ func set_entity(_entity):
 	else:
 		label_local_position.text = "No entity"
 
+func entity_actions(_position):
+	position = _position
+	popup.get_child(0).rect_position = get_global_mouse_position()
+	popup.get_child(0).popup()
+	
 func display_actions(_position, _path):
 	new_position = _position
 	path = _path

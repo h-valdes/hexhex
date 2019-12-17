@@ -55,8 +55,8 @@ func left_click(position):
 						var path = map.get_shortest_path(reference_hex, new_hex)
 						if path.size() > 1:
 							map.emit_signal("show_line", path)
-							if gui.has_entity():
-								gui.display_actions(new_hex, path)
+							if gui.get_flag_neighbours():
+								map.emit_signal("move_entity", entity, path)
 					
 func right_click(position):
 	# Function for the right click (mouse) event
@@ -71,22 +71,22 @@ func right_click(position):
 				if map.has_entity(local_position):
 					var entity = map.get_entity(local_position)
 					if !entity.is_obstacle():
-						# var neighbours = map.get_neighbours(local_position)
-						var neighbours = map.get_movement_range(local_position, entity.get_movement_range())
-						map.emit_signal("show_neighbours", neighbours)
 						map.set_selected_hex(local_position)
 						gui.set_entity(entity)
+						gui.entity_actions(local_position)
 					else:
-						map.set_selected_hex(null)
-						map.emit_signal("click_outside")
+						default_click_outside()
 				else:
-					gui.set_entity(null)
-					map.set_selected_hex(null)
-					map.emit_signal("click_outside")
+					default_click_outside()
 	else:
-		map.set_selected_hex(null)
-		map.emit_signal("click_outside")
+		default_click_outside()
 
+func default_click_outside():
+	map.set_selected_hex(null)
+	gui.set_entity(null)
+	gui.set_flag_neighbours(false)
+	map.emit_signal("click_outside")
+	
 func load_characters():
 	var global_positions = map.get_global_positions()
 	var local_positions = map.get_local_positions()
