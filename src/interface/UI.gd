@@ -29,7 +29,7 @@ func _on_move_pressed():
 	var neighbours = map.get_movement_range(position, entity.get_movement_range())
 	map.emit_signal("show_neighbours", neighbours)
 	flag_neighbours = true
-	# map.emit_signal("move_entity", entity, path)
+	popup.get_child(0).hide()
 
 func _on_attack_pressed():
 	print("attack you fool!")
