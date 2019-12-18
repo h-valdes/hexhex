@@ -53,11 +53,10 @@ func select_position(position):
 			if collider_dict["type"] == "hexagon":
 				var new_hex = collider_dict["local_position"]
 				if reference_hex != new_hex:
-					# var line_members = map.hex_linedraw(reference_hex, new_hex)
 					var entity = get_entity(reference_hex)
 					var neighbours = get_movement_range(reference_hex, entity.get_movement_range())
 					if neighbours.has(new_hex):
-						var path = get_shortest_path(reference_hex, new_hex)
+						var path = pathfinder.find(reference_hex, new_hex, entities.keys())
 						if path.size() > 1:
 							emit_signal("show_line", path)
 							if gui.get_flag_neighbours():
@@ -221,9 +220,6 @@ func connect_hex(hex):
 	connect("show_movement_range", hex, "_on_show_movement_range")
 	connect("show_attack_range", hex, "_on_show_attack_range")
 	connect("show_line", hex, "_on_show_line")
-
-func get_neighbours(local_vector):
-	return MapUtils.get_neighbours(local_vector, local_positions, entities.keys())
 	
 func get_movement_range(position, distance):
 	var all_movement_range = MapUtils.get_movement_range(position, distance)
@@ -235,13 +231,6 @@ func get_movement_range(position, distance):
 			if (distance_to_hex <= distance + 1) && (distance_to_hex > 1):
 				results.push_back(hex)
 	return results
-	
-func hex_linedraw(a, b):
-	var N = MapUtils.get_distance(a, b)
-	var results = []
-	for i in range(0, N+1):
-		results.push_back(MapUtils.hex_round(MapUtils.hex_lerp(a, b, 1.0/N * i)))
-	return results
 
-func get_shortest_path(start, goal):
-	return pathfinder.find(start, goal, entities.keys())
+func get_attack_range(position, distance):
+	pass

@@ -56,3 +56,10 @@ static func get_movement_range(position, distance):
 				if x + y + z == 0:
 					results.push_back(position + Vector3(x, y, z))
 	return results
+
+static func hex_linedraw(a, b):
+	var N = get_distance(a, b)
+	var results = []
+	for i in range(0, N+1):
+		results.push_back(hex_round(hex_lerp(a, b, 1.0/N * i)))
+	return results
