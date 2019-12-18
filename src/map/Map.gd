@@ -4,7 +4,8 @@ const MapUtils = preload("res://src/map/MapUtils.gd")
 
 signal click
 signal click_outside
-signal show_neighbours
+signal show_movement_range
+signal show_attack_range
 signal show_line
 signal move_entity
 
@@ -156,10 +157,7 @@ func create(levels):
 	# Initialize the center (and first) hexagon tile
 	hex = load("res://src/map/Hexagon.gd").new(global_position, local_position, HEX_SCALE)
 	add_child(hex)
-	var __ = connect("click", hex, "_on_click")
-	__ = connect("click_outside", hex, "_on_click_outside")
-	__ = connect("show_neighbours", hex, "_on_show_neighbours")
-	__ = connect("show_line", hex, "_on_show_line")	
+	connect_hex(hex)
 	
 	global_positions[local_position] = global_position
 	local_positions[global_position] = local_position
@@ -196,10 +194,7 @@ func create(levels):
 				if !local_positions.has(global_position):
 					hex = load("res://src/map/Hexagon.gd").new(global_position, local_position, HEX_SCALE)
 					add_child(hex)
-					connect("click", hex, "_on_click")
-					connect("click_outside", hex, "_on_click_outside")
-					connect("show_neighbours", hex, "_on_show_neighbours")
-					connect("show_line", hex, "_on_show_line")
+					connect_hex(hex)
 					hex.translate(global_position)
 					new_hex.push_back(global_position)
 					
@@ -218,6 +213,14 @@ func create(levels):
 						
 		old_hex = new_hex
 		new_hex = []
+
+func connect_hex(hex):
+	# Connect an Hexagon to all the signals
+	connect("click", hex, "_on_click")
+	connect("click_outside", hex, "_on_click_outside")
+	connect("show_movement_range", hex, "_on_show_movement_range")
+	connect("show_attack_range", hex, "_on_show_attack_range")
+	connect("show_line", hex, "_on_show_line")
 
 func get_neighbours(local_vector):
 	return MapUtils.get_neighbours(local_vector, local_positions, entities.keys())

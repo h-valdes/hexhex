@@ -42,11 +42,14 @@ func _on_click_outside():
 	data["is_selected"] = false
 	static_body.set_meta("data", data)
 
-func _on_show_neighbours(neighbours):
+func _on_show_movement_range(neighbours):
 	if neighbours.has(data["local_position"]):
 		set_color(Color(0, 0.5, 0.0))
 	elif !data["is_selected"]:
 		set_color(Color(0.0, 0.69, 0.2))
+
+func _on_show_attack_range():
+	pass
 
 func _on_show_line(members):
 	if members.has(data["local_position"]):
