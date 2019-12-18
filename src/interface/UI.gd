@@ -27,6 +27,7 @@ func set_flag_neighbours(_flag_neighbours):
 
 func _on_move_pressed():
 	var neighbours = map.get_movement_range(position, entity.get_movement_range())
+	map.set_flag_movement_range(true)
 	map.emit_signal("show_neighbours", neighbours)
 	flag_neighbours = true
 	popup.get_child(0).hide()

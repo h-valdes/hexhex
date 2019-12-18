@@ -15,6 +15,7 @@ var global_positions = {}
 var local_positions = {}
 var entities = {}
 var pathfinder
+var flag_movement_range = false
 var map_limits = {
 	"max_x": 0,
 	"min_x": 0,
@@ -36,13 +37,14 @@ func _unhandled_input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.pressed:
-				left_click(event.position)
-		elif event.button_index == BUTTON_RIGHT:
-			if event.pressed:
-				right_click(event.position)
+				if selected_hex == null:
+					select_entity(event.position)
+				elif (selected_hex != null) && (flag_movement_range == true):
+					select_position(event.position)
+				else:
+					select_entity(event.position)
 
-func right_click(position):
-	# Function for the left click (mouse) event
+func select_position(position):
 	if raycast_collider(position):
 		var collider_dict = raycast_collider(position)["collider"].get_meta("data")
 		var reference_hex = get_selected_hex()
@@ -59,9 +61,9 @@ func right_click(position):
 							emit_signal("show_line", path)
 							if gui.get_flag_neighbours():
 								emit_signal("move_entity", entity, path)
+								flag_movement_range = false
 
-func left_click(position):
-	# Function for the right click (mouse) event
+func select_entity(position):
 	var collider_dict = raycast_collider(position)
 	if collider_dict:
 		if collider_dict["collider"].has_meta("data"):
@@ -103,6 +105,9 @@ func get_selected_hex():
 
 func set_selected_hex(position):
 	selected_hex = position
+
+func set_flag_movement_range(flag):
+	flag_movement_range = flag
 
 func get_map_limits():
 	return map_limits
