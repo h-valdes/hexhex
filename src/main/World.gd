@@ -12,7 +12,7 @@ func _ready():
 	camera = get_node("/root/World/CameraBody/Camera")
 	
 	# Generate the hexagon grid map and add it as a child of the scene
-	map = load("res://src/map/Map.gd").new(3, camera)
+	map = load("res://src/map/Map.gd").new(3, camera, gui)
 	add_child(map)
 	
 	gui.set_map(map)
@@ -21,72 +21,6 @@ func _ready():
 
 	load_characters()
 
-func _unhandled_input(event):
-	if event is InputEventMouseButton:
-		if event.button_index == BUTTON_LEFT:
-			if event.pressed:
-				right_click(event.position)
-		if event.button_index == BUTTON_RIGHT:
-			if event.pressed:
-				left_click(event.position)
-
-func raycast_collider(position):
-	# Detect which element is colliding with the ray cast. Return a collider dict
-	var ray_length = 1000
-	var from = camera.project_ray_origin(position)
-	var to = from + camera.project_ray_normal(position) * ray_length
-	var space_state = get_world().direct_space_state
-	var collider_dict = space_state.intersect_ray(from, to, [self])
-	return collider_dict
-
-func left_click(position):
-	# Function for the left click (mouse) event
-	if raycast_collider(position):
-		var collider_dict = raycast_collider(position)["collider"].get_meta("data")
-		var reference_hex = map.get_selected_hex()
-		if (reference_hex != null) && collider_dict:
-			if collider_dict["type"] == "hexagon":
-				var new_hex = collider_dict["local_position"]
-				if reference_hex != new_hex:
-					# var line_members = map.hex_linedraw(reference_hex, new_hex)
-					var entity = map.get_entity(reference_hex)
-					var neighbours = map.get_movement_range(reference_hex, entity.get_movement_range())
-					if neighbours.has(new_hex):
-						var path = map.get_shortest_path(reference_hex, new_hex)
-						if path.size() > 1:
-							map.emit_signal("show_line", path)
-							if gui.get_flag_neighbours():
-								map.emit_signal("move_entity", entity, path)
-					
-func right_click(position):
-	# Function for the right click (mouse) event
-	var collider_dict = raycast_collider(position)
-	if collider_dict:
-		if collider_dict["collider"].has_meta("data"):
-			var data = collider_dict["collider"].get_meta("data")
-			map.emit_signal("click", data)
-			if data["type"] == "hexagon":
-				# If the collider is of the type hexagon, show the neighbours
-				var local_position = data["local_position"]
-				if map.has_entity(local_position):
-					var entity = map.get_entity(local_position)
-					if !entity.is_obstacle():
-						map.set_selected_hex(local_position)
-						gui.set_entity(entity)
-						gui.entity_actions(local_position)
-					else:
-						default_click_outside()
-				else:
-					default_click_outside()
-	else:
-		default_click_outside()
-
-func default_click_outside():
-	map.set_selected_hex(null)
-	gui.set_entity(null)
-	gui.set_flag_neighbours(false)
-	map.emit_signal("click_outside")
-	
 func load_characters():
 	var global_positions = map.get_global_positions()
 	var local_positions = map.get_local_positions()

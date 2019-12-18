@@ -23,21 +23,71 @@ var map_limits = {
 }
 
 var camera
+var gui
 
-func _init(levels, _camera):
+func _init(levels, _camera, _gui):
 	create(levels)
 	connect("move_entity", self, "_on_move_entity")
 	pathfinder = load("res://src/map/Pathfinder.gd").new(local_positions)
 	camera = _camera
+	gui = _gui
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.pressed:
-				print("Left button action")
+				left_click(event.position)
 		elif event.button_index == BUTTON_RIGHT:
 			if event.pressed:
-				print("Right button action")	
+				right_click(event.position)
+
+func right_click(position):
+	# Function for the left click (mouse) event
+	if raycast_collider(position):
+		var collider_dict = raycast_collider(position)["collider"].get_meta("data")
+		var reference_hex = get_selected_hex()
+		if (reference_hex != null) && collider_dict:
+			if collider_dict["type"] == "hexagon":
+				var new_hex = collider_dict["local_position"]
+				if reference_hex != new_hex:
+					# var line_members = map.hex_linedraw(reference_hex, new_hex)
+					var entity = get_entity(reference_hex)
+					var neighbours = get_movement_range(reference_hex, entity.get_movement_range())
+					if neighbours.has(new_hex):
+						var path = get_shortest_path(reference_hex, new_hex)
+						if path.size() > 1:
+							emit_signal("show_line", path)
+							if gui.get_flag_neighbours():
+								emit_signal("move_entity", entity, path)
+
+func left_click(position):
+	# Function for the right click (mouse) event
+	var collider_dict = raycast_collider(position)
+	if collider_dict:
+		if collider_dict["collider"].has_meta("data"):
+			var data = collider_dict["collider"].get_meta("data")
+			emit_signal("click", data)
+			if data["type"] == "hexagon":
+				# If the collider is of the type hexagon, show the neighbours
+				var local_position = data["local_position"]
+				if has_entity(local_position):
+					var entity = get_entity(local_position)
+					if !entity.is_obstacle():
+						set_selected_hex(local_position)
+						gui.set_entity(entity)
+						gui.entity_actions(local_position)
+					else:
+						default_click_outside()
+				else:
+					default_click_outside()
+	else:
+		default_click_outside()
+
+func default_click_outside():
+	set_selected_hex(null)
+	gui.set_entity(null)
+	gui.set_flag_neighbours(false)
+	emit_signal("click_outside")
 
 func raycast_collider(position):
 	# Detect which element is colliding with the ray cast. Return a collider dict
