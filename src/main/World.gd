@@ -12,7 +12,7 @@ func _ready():
 	camera = get_node("/root/World/CameraBody/Camera")
 	
 	# Generate the hexagon grid map and add it as a child of the scene
-	map = load("res://src/map/Map.gd").new(3)
+	map = load("res://src/map/Map.gd").new(3, camera)
 	add_child(map)
 	
 	gui.set_map(map)

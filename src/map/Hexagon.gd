@@ -117,10 +117,10 @@ func generate_mesh(HEX_SCALE):
 
 	st.index()
 	
-	var mesh = Mesh.new()
-	st.commit(mesh)
+	var new_mesh = Mesh.new()
+	st.commit(new_mesh)
 	var mesh_inst = MeshInstance.new()
-	mesh_inst.mesh = mesh
+	mesh_inst.mesh = new_mesh
 	mesh_inst.create_trimesh_collision()
 	
 	return mesh_inst

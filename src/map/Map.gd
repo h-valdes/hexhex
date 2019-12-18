@@ -22,10 +22,31 @@ var map_limits = {
 	"min_z": 0,
 }
 
-func _init(levels):
+var camera
+
+func _init(levels, _camera):
 	create(levels)
 	connect("move_entity", self, "_on_move_entity")
 	pathfinder = load("res://src/map/Pathfinder.gd").new(local_positions)
+	camera = _camera
+
+func _unhandled_input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_LEFT:
+			if event.pressed:
+				print("Left button action")
+		elif event.button_index == BUTTON_RIGHT:
+			if event.pressed:
+				print("Right button action")	
+
+func raycast_collider(position):
+	# Detect which element is colliding with the ray cast. Return a collider dict
+	var ray_length = 1000
+	var from = camera.project_ray_origin(position)
+	var to = from + camera.project_ray_normal(position) * ray_length
+	var space_state = get_world().direct_space_state
+	var collider_dict = space_state.intersect_ray(from, to, [self])
+	return collider_dict
 
 func get_selected_hex():
 	return selected_hex
@@ -61,7 +82,7 @@ func _on_move_entity(entity, path):
 		entity.set_local_position(pos)
 		
 		var direction_vector = new_global_position - old_global_position
-		var angle = atan2(direction_vector.z, direction_vector.x)
+		# var angle = atan2(direction_vector.z, direction_vector.x)
 		
 		entity.global_translate(direction_vector)
 		
@@ -80,10 +101,10 @@ func create(levels):
 	# Initialize the center (and first) hexagon tile
 	hex = load("res://src/map/Hexagon.gd").new(global_position, local_position, HEX_SCALE)
 	add_child(hex)
-	connect("click", hex, "_on_click")
-	connect("click_outside", hex, "_on_click_outside")
-	connect("show_neighbours", hex, "_on_show_neighbours")
-	connect("show_line", hex, "_on_show_line")	
+	var __ = connect("click", hex, "_on_click")
+	__ = connect("click_outside", hex, "_on_click_outside")
+	__ = connect("show_neighbours", hex, "_on_show_neighbours")
+	__ = connect("show_line", hex, "_on_show_line")	
 	
 	global_positions[local_position] = global_position
 	local_positions[global_position] = local_position

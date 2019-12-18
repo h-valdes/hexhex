@@ -1,6 +1,5 @@
 extends KinematicBody
 
-var velocity = Vector3(0, 0, 0)
 const SPEED = 10
 var angle = 0.1
 var camera 
@@ -24,7 +23,6 @@ func _unhandled_input(event):
 
 func _physics_process(delta):
 	world_dimensions = camera.get_meta("world_dimension")
-	var angle_camera = (PI * 55) / 180
 	var camera_position = camera.global_transform.origin
 	# Move Camera
 	if Input.is_action_pressed("ui_right"):
