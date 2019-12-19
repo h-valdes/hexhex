@@ -17,14 +17,14 @@ func _ready():
 	
 	gui.set_map(map)
 	
-	camera.set_meta("world_dimension", map.get_map_limits())
+	camera.set_meta("world_dimension", map.map_limits)
 
 	load_characters()
 
 func load_characters():
-	var global_positions = map.get_global_positions()
-	var local_positions = map.get_local_positions()
-	var entities = map.get_entities()
+	var global_positions = map.global_positions
+	var local_positions = map.local_positions
+	var entities = map.entities
 
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
@@ -41,7 +41,7 @@ func load_characters():
 		map.add_entity(knight, local_position)
 	
 	for x in range(0, 10):
-		entities = map.get_entities()
+		entities = map.entities
 		rng = RandomNumberGenerator.new()
 		rng.randomize()
 		random_index = rng.randi_range(0, global_positions.size() - 1)

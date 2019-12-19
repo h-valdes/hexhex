@@ -48,12 +48,12 @@ func _unhandled_input(event):
 func select_position(position):
 	if raycast_collider(position):
 		var collider_dict = raycast_collider(position)["collider"].get_meta("data")
-		var reference_hex = get_selected_hex()
+		var reference_hex = selected_hex
 		if (reference_hex != null) && collider_dict:
 			if collider_dict["type"] == "hexagon":
 				var new_hex = collider_dict["local_position"]
 				if reference_hex != new_hex:
-					var entity = get_entity(reference_hex)
+					var entity = entities[reference_hex]
 					var neighbours = get_movement_range(reference_hex, entity.get_movement_range())
 					if neighbours.has(new_hex):
 						var path = pathfinder.find(reference_hex, new_hex, entities.keys())
@@ -73,9 +73,9 @@ func select_entity(position):
 				# If the collider is of the type hexagon, show the neighbours
 				var local_position = data["local_position"]
 				if has_entity(local_position):
-					var entity = get_entity(local_position)
+					var entity = entities[local_position]
 					if !entity.is_obstacle():
-						set_selected_hex(local_position)
+						selected_hex = local_position
 						gui.set_entity(entity)
 						gui.entity_actions(local_position)
 					else:
@@ -86,7 +86,7 @@ func select_entity(position):
 		default_click_outside()
 
 func default_click_outside():
-	set_selected_hex(null)
+	selected_hex = null
 	gui.set_entity(null)
 	gui.set_flag_neighbours(false)
 	emit_signal("click_outside")
@@ -100,29 +100,11 @@ func raycast_collider(position):
 	var collider_dict = space_state.intersect_ray(from, to, [self])
 	return collider_dict
 
-func get_selected_hex():
-	return selected_hex
-
-func set_selected_hex(position):
-	selected_hex = position
-
 func set_flag_movement_range(flag):
 	flag_movement_range = flag
 
-func get_map_limits():
-	return map_limits
-
-func get_local_positions():
-	return local_positions
-
-func get_global_positions():
-	return global_positions
-
 func has_entity(position):
 	return entities.keys().has(position)
-
-func get_entities():
-	return entities
 
 func add_entity(new_entity, new_local_position):
 	entities[new_local_position] = new_entity
@@ -142,12 +124,9 @@ func _on_move_entity(entity, path):
 		entity.global_translate(direction_vector)
 		
 		yield(get_tree().create_timer(0.1), "timeout")
-	set_selected_hex(null)
+	selected_hex = null
 	emit_signal("click_outside")
 
-func get_entity(position):
-	return entities[position]
-	
 func create(levels):
 	var hex
 	var global_position = Vector3(0, 0, 0)
