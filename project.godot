@@ -9,12 +9,18 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "KinematicBody",
+"class": "Character",
+"language": "GDScript",
+"path": "res://src/characters/Character.gd"
+}, {
 "base": "Spatial",
 "class": "Hexagon",
 "language": "GDScript",
 "path": "res://src/map/Hexagon.gd"
 } ]
 _global_script_class_icons={
+"Character": "",
 "Hexagon": ""
 }
 

@@ -34,7 +34,7 @@ func load_characters():
 	var local_position = local_positions[global_position]
 
 	if !entities.keys().has(local_position):
-		var knight = load("res://src/knight/knight.gd").new()
+		var knight = load("res://src/characters/knight/knight.gd").new()
 		add_child(knight)
 		knight.translate(global_position)
 		knight.set_local_position(local_position)
