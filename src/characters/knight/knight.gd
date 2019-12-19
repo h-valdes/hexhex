@@ -8,7 +8,7 @@ func _init():
 	
 	# Set default values for knight character
 	movement_range = 2
-	attack_range = 1
+	attack_range = 2
 	life = 3
 
 func is_obstacle():

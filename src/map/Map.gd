@@ -217,5 +217,12 @@ func get_attack_range(position, distance):
 	var results = []
 	for hex in all_attack_range:
 		if !entities.keys().has(hex):
-			results.push_back(hex)
+			var line_members = MapUtils.hex_linedraw(position, hex)
+			line_members.erase(position)
+			var flag_line = true
+			for line_member in line_members:
+				if entities.keys().has(line_member):
+					flag_line = false
+			if flag_line == true:
+				results.push_back(hex)
 	return results
