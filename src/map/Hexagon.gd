@@ -1,9 +1,9 @@
 extends Spatial
+class_name Hexagon
 
 var data
 var mesh
 var static_body
-class_name Hexagon
 
 func _init(global_position, local_position, HEX_SCALE):
 	# Local position is using cube coordinates
@@ -48,8 +48,11 @@ func _on_show_movement_range(neighbours):
 	elif !data["is_selected"]:
 		set_color(Color(0.0, 0.69, 0.2))
 
-func _on_show_attack_range():
-	pass
+func _on_show_attack_range(neighbours):
+	if neighbours.has(data["local_position"]):
+		set_color(Color(0.9, 0.0, 0.0))
+	elif !data["is_selected"]:
+		set_color(Color(0.0, 0.69, 0.2))
 
 func _on_show_line(members):
 	if members.has(data["local_position"]):

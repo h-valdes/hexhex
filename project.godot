@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "Hexagon",
 "language": "GDScript",
 "path": "res://src/map/Hexagon.gd"
+}, {
+"base": "Spatial",
+"class": "Map",
+"language": "GDScript",
+"path": "res://src/map/Map.gd"
 } ]
 _global_script_class_icons={
 "Character": "",
-"Hexagon": ""
+"Hexagon": "",
+"Map": ""
 }
 
 [application]

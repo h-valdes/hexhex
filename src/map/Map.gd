@@ -1,4 +1,5 @@
 extends Spatial
+class_name Map
 
 const MapUtils = preload("res://src/map/MapUtils.gd")
 
@@ -201,7 +202,7 @@ func connect_hex(hex):
 	connect("show_line", hex, "_on_show_line")
 	
 func get_movement_range(position, distance):
-	var all_movement_range = MapUtils.get_movement_range(position, distance)
+	var all_movement_range = MapUtils.get_coordinate_range(position, distance)
 	var results = []
 	for hex in all_movement_range:
 		if !entities.keys().has(hex):
@@ -212,4 +213,9 @@ func get_movement_range(position, distance):
 	return results
 
 func get_attack_range(position, distance):
-	pass
+	var all_attack_range = MapUtils.get_coordinate_range(position, distance)
+	var results = []
+	for hex in all_attack_range:
+		if !entities.keys().has(hex):
+			results.push_back(hex)
+	return results

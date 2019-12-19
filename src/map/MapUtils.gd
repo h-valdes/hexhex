@@ -48,7 +48,7 @@ static func get_neighbours(local_vector, positions, obstacles):
                     
     return neighbours
 
-static func get_movement_range(position, distance):
+static func get_coordinate_range(position, distance):
 	var results = []
 	for x in range(-distance, distance + 1):
 		for y in range(-distance, distance + 1):

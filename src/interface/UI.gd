@@ -33,7 +33,9 @@ func _on_move_pressed():
 	popup.get_child(0).hide()
 
 func _on_attack_pressed():
-	print("attack you fool!")
+	var neighbours = map.get_attack_range(position, entity.get_attack_range())
+	map.emit_signal("show_attack_range", neighbours)
+	popup.get_child(0).hide()
 
 func set_map(_map):
 	map = _map
