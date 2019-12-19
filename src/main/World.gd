@@ -25,33 +25,19 @@ func load_characters():
 	var global_positions = map.global_positions
 	var local_positions = map.local_positions
 	var entities = map.entities
-
-	var rng = RandomNumberGenerator.new()
-	rng.randomize()
-	var random_index = rng.randi_range(0, global_positions.size() - 1)
-	
-	var global_position = global_positions.values()[random_index]
-	var local_position = local_positions[global_position]
-
-	if !entities.keys().has(local_position):
-		var knight = load("res://src/characters/knight/knight.gd").new()
-		add_child(knight)
-		knight.translate(global_position)
-		knight.set_local_position(local_position)
-		map.add_entity(knight, local_position)
 	
 	for x in range(0, 10):
 		entities = map.entities
-		rng = RandomNumberGenerator.new()
+		var rng = RandomNumberGenerator.new()
 		rng.randomize()
-		random_index = rng.randi_range(0, global_positions.size() - 1)
+		var random_index = rng.randi_range(0, global_positions.size() - 1)
 		
-		global_position = global_positions.values()[random_index]
-		local_position = local_positions[global_position]
+		var global_position = global_positions.values()[random_index]
+		var local_position = local_positions[global_position]
 
 		if !entities.keys().has(local_position):
-			var tree = load("res://src/tree/tree.gd").new()
-			add_child(tree)
-			tree.translate(global_position)
-			tree.set_local_position(local_position)
-			map.add_entity(tree, local_position)
+			var knight = load("res://src/characters/knight/knight.gd").new()
+			add_child(knight)
+			knight.translate(global_position)
+			knight.set_local_position(local_position)
+			map.add_entity(knight, local_position)

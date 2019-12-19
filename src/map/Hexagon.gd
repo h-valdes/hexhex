@@ -54,6 +54,12 @@ func _on_show_attack_range(neighbours):
 	elif !data["is_selected"]:
 		set_color(Color(0.0, 0.69, 0.2))
 
+func _on_show_enemy(enemies):
+	if enemies.has(data["local_position"]) && !data["is_selected"]:
+		set_color(Color(0.9, 0.0, 0.0))
+	elif !data["is_selected"]:
+		set_color(Color(0.0, 0.69, 0.2))
+
 func _on_show_line(members):
 	if members.has(data["local_position"]):
 		set_color(Color(0, 0.5, 0.5))

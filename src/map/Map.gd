@@ -9,6 +9,7 @@ signal show_movement_range
 signal show_attack_range
 signal show_line
 signal move_entity
+signal show_enemy
 
 const HEX_SCALE = 5
 
@@ -199,6 +200,7 @@ func connect_hex(hex):
 	connect("click_outside", hex, "_on_click_outside")
 	connect("show_movement_range", hex, "_on_show_movement_range")
 	connect("show_attack_range", hex, "_on_show_attack_range")
+	connect("show_enemy", hex, "_on_show_enemy")
 	connect("show_line", hex, "_on_show_line")
 	
 func get_movement_range(position, distance):
@@ -214,6 +216,7 @@ func get_movement_range(position, distance):
 
 func get_attack_range(position, distance):
 	var all_attack_range = MapUtils.get_coordinate_range(position, distance)
+	var enemies = []
 	var results = []
 	for hex in all_attack_range:
 		if !entities.keys().has(hex):
@@ -225,4 +228,7 @@ func get_attack_range(position, distance):
 					flag_line = false
 			if flag_line == true:
 				results.push_back(hex)
-	return results
+		else:
+			enemies.push_back(hex)
+	emit_signal("show_enemy", enemies)
+	return enemies
