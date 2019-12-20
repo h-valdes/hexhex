@@ -9,6 +9,7 @@ signal show_movement_range
 signal show_attack_range
 signal show_line
 signal move_entity
+signal attack_entity
 signal show_enemy
 
 const HEX_SCALE = 5
@@ -19,6 +20,7 @@ var local_positions = {}
 var entities = {}
 var pathfinder
 var flag_movement_range = false
+var flag_attack_range = false
 var map_limits = {
 	"max_x": 0,
 	"min_x": 0,
@@ -32,6 +34,7 @@ var gui
 func _init(levels, _camera, _gui):
 	create(levels)
 	connect("move_entity", self, "_on_move_entity")
+	connect("attack_entity", self, "_on_attack_entity")
 	pathfinder = load("res://src/map/Pathfinder.gd").new(local_positions)
 	camera = _camera
 	gui = _gui
@@ -44,8 +47,24 @@ func _unhandled_input(event):
 					select_entity(event.position)
 				elif (selected_hex != null) && (flag_movement_range == true):
 					select_position(event.position)
+				elif (selected_hex != null) && (flag_attack_range == true):
+					select_attack(event.position)
 				else:
 					select_entity(event.position)
+
+func select_attack(position):
+	flag_attack_range = false
+	var collider_dict = raycast_collider(position)["collider"].get_meta("data")
+	var reference_hex = selected_hex
+	if (reference_hex != null) && collider_dict:
+		if collider_dict["type"] == "hexagon":
+			var new_hex = collider_dict["local_position"]
+			if reference_hex != new_hex:
+				var entity = entities[selected_hex]
+				var neighbours = get_attack_range(reference_hex, entity.get_attack_range())
+				if neighbours.has(new_hex):
+					var new_entity = entities[new_hex]
+					emit_signal("attack_entity", new_entity)
 
 func select_position(position):
 	if raycast_collider(position):
@@ -105,6 +124,9 @@ func raycast_collider(position):
 func set_flag_movement_range(flag):
 	flag_movement_range = flag
 
+func set_flag_attack_range(flag):
+	flag_attack_range = flag
+
 func has_entity(position):
 	return entities.keys().has(position)
 
@@ -127,6 +149,11 @@ func _on_move_entity(entity, path):
 		
 		yield(get_tree().create_timer(0.1), "timeout")
 	selected_hex = null
+	emit_signal("click_outside")
+
+func _on_attack_entity(entity):
+	entities.erase(entity.get_local_position())
+	get_parent().remove_child(entity)
 	emit_signal("click_outside")
 
 func create(levels):
