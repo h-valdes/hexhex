@@ -38,6 +38,20 @@ func load_characters():
 		if !entities.keys().has(local_position):
 			var knight = load("res://src/characters/knight/knight.gd").new()
 			add_child(knight)
+			
+			var entity_mesh = knight.get_child(0).get_child(0).get_child(0).get_child(0).get_child(0).get_child(1).get_child(0)
+			var outline_mesh = MeshInstance.new()
+			outline_mesh.mesh = entity_mesh.mesh.create_outline(0.06)
+			var material = SpatialMaterial.new()
+			material.flags_transparent = true
+			print(material.flags_transparent)
+			if x < 5:
+				material.albedo_color = Color(0, 0, 1, 0.4)
+			else:
+				material.albedo_color = Color(1, 0, 0, 0.4)
+			outline_mesh.set_material_override(material)
+			entity_mesh.add_child(outline_mesh)
+			
 			knight.translate(global_position)
 			knight.set_local_position(local_position)
 			map.add_entity(knight, local_position)

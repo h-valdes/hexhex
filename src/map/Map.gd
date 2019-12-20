@@ -96,16 +96,6 @@ func select_entity(position):
 				var local_position = data["local_position"]
 				if has_entity(local_position):
 					var entity = entities[local_position]
-					var entity_mesh = entity.get_child(0).get_child(0).get_child(0).get_child(0).get_child(0).get_child(1).get_child(0)
-					var outline_mesh = MeshInstance.new()
-					outline_mesh.mesh = entity_mesh.mesh.create_outline(0.06)
-					var material = SpatialMaterial.new()
-					material.flags_transparent = true
-					print(material.flags_transparent)					
-					material.albedo_color = Color(0, 0, 1, 0.4)
-					
-					outline_mesh.set_material_override(material)
-					entity_mesh.add_child(outline_mesh)
 					if !entity.is_obstacle():
 						selected_hex = local_position
 						gui.set_entity(entity)
