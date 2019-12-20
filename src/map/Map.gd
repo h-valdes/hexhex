@@ -53,18 +53,19 @@ func _unhandled_input(event):
 					select_entity(event.position)
 
 func select_attack(position):
-	flag_attack_range = false
-	var collider_dict = raycast_collider(position)["collider"].get_meta("data")
-	var reference_hex = selected_hex
-	if (reference_hex != null) && collider_dict:
-		if collider_dict["type"] == "hexagon":
-			var new_hex = collider_dict["local_position"]
-			if reference_hex != new_hex:
-				var entity = entities[selected_hex]
-				var neighbours = get_attack_range(reference_hex, entity.get_attack_range())
-				if neighbours.has(new_hex):
-					var new_entity = entities[new_hex]
-					emit_signal("attack_entity", new_entity)
+	if raycast_collider(position):
+		flag_attack_range = false
+		var collider_dict = raycast_collider(position)["collider"].get_meta("data")
+		var reference_hex = selected_hex
+		if (reference_hex != null) && collider_dict:
+			if collider_dict["type"] == "hexagon":
+				var new_hex = collider_dict["local_position"]
+				if reference_hex != new_hex:
+					var entity = entities[selected_hex]
+					var neighbours = get_attack_range(reference_hex, entity.get_attack_range())
+					if neighbours.has(new_hex):
+						var new_entity = entities[new_hex]
+						emit_signal("attack_entity", new_entity)
 
 func select_position(position):
 	if raycast_collider(position):
