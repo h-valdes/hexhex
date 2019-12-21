@@ -53,6 +53,7 @@ func _unhandled_input(event):
 					select_entity(event.position)
 
 func select_attack(position):
+	var flag_success = false
 	if raycast_collider(position):
 		flag_attack_range = false
 		var collider_dict = raycast_collider(position)["collider"].get_meta("data")
@@ -65,9 +66,14 @@ func select_attack(position):
 					var neighbours = get_attack_range(reference_hex, entity.get_attack_range())
 					if neighbours.has(new_hex):
 						var new_entity = entities[new_hex]
+						flag_success = true
 						emit_signal("attack_entity", new_entity)
+						
+	if flag_success == false:
+		default_click_outside()
 
 func select_position(position):
+	var flag_success = false
 	if raycast_collider(position):
 		var collider_dict = raycast_collider(position)["collider"].get_meta("data")
 		var reference_hex = selected_hex
@@ -84,8 +90,12 @@ func select_position(position):
 							if gui.get_flag_neighbours():
 								emit_signal("move_entity", entity, path)
 								flag_movement_range = false
+								flag_success = true
+	if flag_success == false:
+		default_click_outside()
 
 func select_entity(position):
+	var flag_success = false
 	var collider_dict = raycast_collider(position)
 	if collider_dict:
 		if collider_dict["collider"].has_meta("data"):
@@ -100,11 +110,9 @@ func select_entity(position):
 						selected_hex = local_position
 						gui.set_entity(entity)
 						gui.entity_actions(local_position)
-					else:
-						default_click_outside()
-				else:
-					default_click_outside()
-	else:
+						flag_success = true
+
+	if flag_success == false:
 		default_click_outside()
 
 func default_click_outside():
