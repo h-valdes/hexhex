@@ -1,7 +1,10 @@
 extends Control
 
+onready var label_position = get_node("Panel/EntityList/position")
+onready var label_attack = get_node("Panel/EntityList/attack")
+onready var label_movement = get_node("Panel/EntityList/movement")
+
 var entity
-var label_local_position
 var new_position
 var position
 var path
@@ -10,7 +13,6 @@ var map
 var flag_neighbours = false
 
 func _ready():
-	label_local_position = get_node("Panel/EntityList/local_position")
 	popup = load("res://src/interface/PopInfo.tscn")
 	popup = popup.instance()
 	add_child(popup)
@@ -47,9 +49,13 @@ func has_entity():
 func set_entity(_entity):
 	entity = _entity
 	if entity != null:
-		label_local_position.text = str(entity.get_local_position())
+		label_position.text = str(entity.get_local_position())
+		label_attack.text = str(entity.attack_range)
+		label_movement.text = str(entity.movement_range)
 	else:
-		label_local_position.text = "No entity"
+		label_position.text = "No entity"
+		label_attack.text = str("")
+		label_movement.text = str("")
 
 func entity_actions(_position):
 	position = _position

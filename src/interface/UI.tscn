@@ -19,8 +19,22 @@ margin_bottom = 600.0
 margin_right = 40.0
 margin_bottom = 40.0
 
-[node name="local_position" type="Label" parent="Panel/EntityList"]
+[node name="position" type="Label" parent="Panel/EntityList"]
 margin_right = 40.0
 margin_bottom = 31.0
+text = "hola1
+"
+
+[node name="attack" type="Label" parent="Panel/EntityList"]
+margin_top = 35.0
+margin_right = 40.0
+margin_bottom = 66.0
+text = "hola1
+"
+
+[node name="movement" type="Label" parent="Panel/EntityList"]
+margin_top = 70.0
+margin_right = 40.0
+margin_bottom = 101.0
 text = "hola1
 "
