@@ -23,11 +23,17 @@ _global_script_classes=[ {
 "class": "Map",
 "language": "GDScript",
 "path": "res://src/map/Map.gd"
+}, {
+"base": "Spatial",
+"class": "Player",
+"language": "GDScript",
+"path": "res://src/player/player.gd"
 } ]
 _global_script_class_icons={
 "Character": "",
 "Hexagon": "",
-"Map": ""
+"Map": "",
+"Player": ""
 }
 
 [application]
