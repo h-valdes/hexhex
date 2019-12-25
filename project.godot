@@ -27,7 +27,7 @@ _global_script_classes=[ {
 "base": "Spatial",
 "class": "Player",
 "language": "GDScript",
-"path": "res://src/player/player.gd"
+"path": "res://src/player/Player.gd"
 } ]
 _global_script_class_icons={
 "Character": "",

@@ -18,6 +18,7 @@ var selected_hex
 var global_positions = {}
 var local_positions = {}
 var entities = {}
+var players = {}
 var pathfinder
 var flag_movement_range = false
 var flag_attack_range = false
@@ -288,3 +289,34 @@ func load_characters():
 			knight.translate(global_position)
 			knight.set_local_position(local_position)
 			add_entity(knight, local_position)
+
+func init_player(player_name, color, entity_name):
+	var player = load("res://src/player/Player.gd").new(player_name, color)
+	var entity
+	for i in range(0, 5):
+		if entity_name == "knight":
+			entity = load("res://src/characters/knight/knight.gd").new()
+		elif entity_name == "archer":
+			entity = load("res://src/characters/archer/archer.gd").new()
+		elif entity_name == "warrior":
+			entity = load("res://src/characters/warrior/warrior.gd").new()
+			
+		player.add_entity(entity)
+		var flag = true
+		while flag:
+			var rng = RandomNumberGenerator.new()
+			rng.randomize()
+			var random_index = rng.randi_range(0, global_positions.size() - 1)
+			
+			var global_position = global_positions.values()[random_index]
+			var local_position = local_positions[global_position]
+			
+			if !entities.keys().has(local_position):
+				add_child(entity)
+				entity.translate(global_position)
+				entity.set_local_position(local_position)
+				add_entity(entity, local_position)
+				flag = false
+				break
+	
+	return player
