@@ -163,6 +163,7 @@ func _on_move_entity(entity, path):
 
 func _on_attack_entity(entity):
 	entities.erase(entity.get_local_position())
+	entity.deactivate()
 	get_parent().remove_child(entity)
 	emit_signal("click_outside")
 

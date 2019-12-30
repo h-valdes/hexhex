@@ -15,3 +15,11 @@ func add_entity(entity):
 
 func remove_entity(entity):
 	entities.erase(entity)
+
+func get_active_entities():
+	var active_entities = []
+	for entity in entities:
+		if entity.is_active:
+			active_entities.push_back(entity)
+			
+	return active_entities

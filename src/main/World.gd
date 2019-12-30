@@ -23,5 +23,3 @@ func _ready():
 #	map.load_characters()
 	map.players[map.init_player("Player1", Color(0, 0.2, 0.1), "knight")] = null
 	map.players[map.init_player("Player2", Color(0.7, 0, 0), "archer")] = null
-	
-	print(map.get_children())
