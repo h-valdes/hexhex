@@ -17,10 +17,13 @@ func add_entity(entity):
 func remove_entity(entity):
 	entities.erase(entity)
 
+func has_local_position(position):
+	return entities.keys().has(position)
+
 func get_active_entities():
-	var active_entities = []
+	var active_entities = {}
 	for entity in entities:
 		if entity.is_active:
-			active_entities.push_back(entity)
+			active_entities[entity.local_position] = entity
 			
 	return active_entities

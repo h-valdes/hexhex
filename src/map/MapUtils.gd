@@ -63,3 +63,8 @@ static func hex_linedraw(a, b):
 	for i in range(0, N+1):
 		results.push_back(hex_round(hex_lerp(a, b, 1.0/N * i)))
 	return results
+
+static func merge_dict(a, b):
+    for key in b.keys():
+        a[key] = b[key]
+    return a

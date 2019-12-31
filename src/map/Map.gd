@@ -1,8 +1,6 @@
 extends Spatial
 class_name Map
 
-const MapUtils = preload("res://src/map/MapUtils.gd")
-
 signal click
 signal click_outside
 signal show_movement_range
@@ -13,6 +11,7 @@ signal attack_entity
 signal show_enemy
 
 const HEX_SCALE = 5
+const MapUtils = preload("res://src/map/MapUtils.gd")
 
 var selected_hex
 var global_positions = {}
@@ -96,6 +95,7 @@ func select_position(position):
 		default_click_outside()
 
 func select_entity(position):
+	print(get_all_entities())
 	var flag_success = false
 	var collider_dict = raycast_collider(position)
 	if collider_dict:
@@ -138,9 +138,10 @@ func set_flag_attack_range(flag):
 	flag_attack_range = flag
 
 func get_all_entities():
-	var all_entities = []
+	var all_entities = {}
 	for player in players:
-		player.get_active_entities()
+		var active_entities = player.get_active_entities()
+		all_entities = MapUtils.merge_dict(all_entities, active_entities)
 	return all_entities
 
 func has_entity(position):
@@ -168,7 +169,6 @@ func _on_move_entity(entity, path):
 	emit_signal("click_outside")
 
 func _on_attack_entity(entity):
-	print(entity.get_meta("player"))
 	entities.erase(entity.get_local_position())
 	entity.deactivate()
 	get_parent().remove_child(entity)
@@ -281,6 +281,7 @@ func get_attack_range(position, distance):
 func init_player(player_name, color, entity_name):
 	var player = load("res://src/player/Player.gd").new(player_name, color)
 	var entity
+	var all_entities = get_all_entities()
 	for i in range(0, 5):
 		if entity_name == "knight":
 			entity = load("res://src/characters/knight/knight.gd").new()
@@ -299,10 +300,10 @@ func init_player(player_name, color, entity_name):
 			var global_position = global_positions.values()[random_index]
 			var local_position = local_positions[global_position]
 			
-			if !entities.keys().has(local_position):
+			if !all_entities.has(local_position) && !player.has_local_position(local_position):
 				add_child(entity)
 				entity.translate(global_position)
-				entity.set_local_position(local_position)
+				entity.local_position = local_position
 				add_entity(entity, local_position)
 				flag = false
 				break
