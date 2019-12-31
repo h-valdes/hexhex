@@ -12,6 +12,7 @@ func _init(_name, _color):
 func add_entity(entity):
 	entities[entity] = null
 	entity.set_circle_color(color)
+	entity.set_meta("player", player_name)
 
 func remove_entity(entity):
 	entities.erase(entity)

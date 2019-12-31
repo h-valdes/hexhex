@@ -137,6 +137,12 @@ func set_flag_movement_range(flag):
 func set_flag_attack_range(flag):
 	flag_attack_range = flag
 
+func get_all_entities():
+	var all_entities = []
+	for player in players:
+		player.get_active_entities()
+	return all_entities
+
 func has_entity(position):
 	return entities.keys().has(position)
 
@@ -162,6 +168,7 @@ func _on_move_entity(entity, path):
 	emit_signal("click_outside")
 
 func _on_attack_entity(entity):
+	print(entity.get_meta("player"))
 	entities.erase(entity.get_local_position())
 	entity.deactivate()
 	get_parent().remove_child(entity)
