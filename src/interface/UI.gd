@@ -36,6 +36,7 @@ func _on_move_pressed():
 
 func _on_attack_pressed():
 	var neighbours = map.get_attack_range(position, entity.get_attack_range())
+	map.emit_signal("show_enemy", neighbours)
 	map.set_flag_attack_range(true)
 	flag_neighbours = true
 	popup.get_child(0).hide()

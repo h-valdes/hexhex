@@ -57,15 +57,15 @@ func select_attack(position):
 	if raycast_collider(position):
 		flag_attack_range = false
 		var collider_dict = raycast_collider(position)["collider"].get_meta("data")
-		var reference_hex = selected_hex
-		if (reference_hex != null) && collider_dict:
+		var source_hex = selected_hex
+		if (source_hex != null) && collider_dict:
 			if collider_dict["type"] == "hexagon":
-				var new_hex = collider_dict["local_position"]
-				if reference_hex != new_hex:
+				var target_hex = collider_dict["local_position"]
+				if source_hex != target_hex:
 					var entity = entities[selected_hex]
-					var neighbours = get_attack_range(reference_hex, entity.get_attack_range())
-					if neighbours.has(new_hex):
-						var new_entity = entities[new_hex]
+					var neighbours = get_attack_range(source_hex, entity.get_attack_range())
+					if neighbours.has(target_hex):
+						var new_entity = entities[target_hex]
 						flag_success = true
 						emit_signal("attack_entity", new_entity)
 						
@@ -95,7 +95,6 @@ func select_position(position):
 		default_click_outside()
 
 func select_entity(position):
-	print(get_all_entities())
 	var flag_success = false
 	var collider_dict = raycast_collider(position)
 	if collider_dict:
@@ -261,6 +260,7 @@ func get_movement_range(position, distance):
 
 func get_attack_range(position, distance):
 	var all_attack_range = MapUtils.get_coordinate_range(position, distance)
+	var source_entity = entities[position]
 	var enemies = []
 	var results = []
 	for hex in all_attack_range:
@@ -274,8 +274,9 @@ func get_attack_range(position, distance):
 			if flag_line == true:
 				results.push_back(hex)
 		else:
-			enemies.push_back(hex)
-	emit_signal("show_enemy", enemies)
+			var target_entity = entities[hex]
+			if target_entity.get_meta("player") != source_entity.get_meta("player"): 
+				enemies.push_back(hex)
 	return enemies
 
 func init_player(player_name, color, entity_name):
